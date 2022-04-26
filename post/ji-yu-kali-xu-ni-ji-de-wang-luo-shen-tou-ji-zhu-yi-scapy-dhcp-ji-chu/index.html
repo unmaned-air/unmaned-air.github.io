@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>基于kali虚拟机的网络渗透技术(二)scapy DHCP基础 | Gridea</title>
-<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1650942594638">
+<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1650969987920">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unmaned-air.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="基于kali虚拟机的网络渗透技术(二)scapy DHCP基础 | Gridea - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
@@ -24,7 +24,7 @@ DHCP服务器保管着IP地址，分配方式是按照硬件地址（M..." />
       <div class="main-content">
         <div class="site-header">
   <a href="https://unmaned-air.github.io">
-  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1650942594638" alt="">
+  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1650969987920" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -90,7 +90,7 @@ DHCP服务器保管着IP地址，分配方式是按照硬件地址（M..." />
                 2022-04-26
               </span>
               <span>
-                1 min read
+                2 min read
               </span>
               
             </div>
@@ -104,12 +104,41 @@ DHCP服务器保管着IP地址，分配方式是按照硬件地址（MAC）分�
 </blockquote>
 <h3 id="dhcp的工作原理与流程">DHCP的工作原理与流程</h3>
 <ul>
-<li>客户端在局域网内发起一个<a herf="#one"><em>DHCP Discover</em></a>报文；</li>
-<li>接收到<em>DHCP Discover</em>包的服务端会向请求的客户端发送一个<a herf="#two"><em>DHCP Offer</em></a>报文;</li>
-<li>客户端会广播一个<a herf="#three"><em>DHCP Request</em></a>，声明自己选用的服务端和IP地址；</li>
-<li>服务端在接收到客户端广播的DHCP Request报文之后，就会判断该报文中的IP地址是否与自己的地址相同，如果相同，就会向客户端发送一个响应的<a herf="#four">DHCP ACK</a>报文。</li>
+<li>客户端在局域网内发起一个 <em>DHCP Discover</em> 报文；</li>
+<li>接收到<em>DHCP Discover</em>包的服务端会向请求的客户端发送一个 <em>DHCP Offer</em> 报文;</li>
+<li>客户端会广播一个<em>DHCP Request</em>，声明自己选用的服务端和IP地址；</li>
+<li>服务端在接收到客户端广播的DHCP Request报文之后，就会判断该报文中的IP地址是否与自己的地址相同，如果相同，就会向客户端发送一个响应的DHCP ACK报文。</li>
 </ul>
+<blockquote>
+<p>DHCP的前身是BOOTP协议，DHCP比BOOTP更复杂，功能也更加强大，<mark>但是在scapy和WireShark等流行工具中还是将DHCP协议分成DHCP和BOOTP两个部分来看待。</mark></p>
+</blockquote>
 <h3 id="python-如何实现">Python 如何实现</h3>
+<p>利用 <em>ls()</em> 函数可以查找相关参数，我们利用以下程序查看scapy中两个部分的内容：</p>
+<pre><code class="language-Python">from scapy.all import *
+ls(BOOTP)
+ls(DHCP)
+</code></pre>
+<ul>
+<li><em>DHCP Discover</em> 数据包的构造：<br>
+利用*RandMAC()*函数生成随机地址</li>
+</ul>
+<pre><code class="language-python">mac_random = str(RandMAC()) //转化成字符串形式
+Ether_Discover = Ether(src = mac.random,dst=&quot;ff:ff:ff:ff:ff:ff&quot;)//16个f是广播的意思
+</code></pre>
+<p><em>BOOTP</em> 协议要设置的参数有<em>xid</em>、<em>chaddr</em>（<em>和以太中出现的src应该相同</em>）<br>
+<em>DHCP</em> 协议要设置的参数是<em>options</em></p>
+<pre><code class="language-python">from scapy.all import *
+import binascii
+xid_random = random.randint(1,100000000)
+mac_random = str(RandMAC())
+dhcp_discover = Ether(src=mac_random,dst=&quot;ff:ff:ff:ff:ff:ff&quot;)/IP(src=&quot;0.0.0.0&quot;,dst=&quot;255.255.255.255&quot;)/UDP(sport=68,dport=67)/BOOTP(chaddr=mac_random,xid=xid_random,flags=32768)/DHCP(options=[(&quot;message-type&quot;,&quot;discover&quot;),&quot;end&quot;])
+sendp(dhcp_discover,iface='eth0')
+print(&quot;yep______________________&quot;)
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://unmaned-air.github.io/post-images/1650969152294.png" alt="" loading="lazy"></figure>
+<ul>
+<li>捕获DHCP offer数据包</li>
+</ul>
 
               </div>
               <div class="toc-container">

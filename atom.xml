@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unmaned-air.github.io</id>
     <title>Gridea</title>
-    <updated>2022-04-26T03:09:59.448Z</updated>
+    <updated>2022-04-26T10:46:29.903Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unmaned-air.github.io"/>
     <link rel="self" href="https://unmaned-air.github.io/atom.xml"/>
@@ -59,6 +59,8 @@
 <img src="https://unmaned-air.github.io/post-images/1650893780671.jpg" alt="" loading="lazy"></li>
 <li><em>more Features</em><br>
 多重函数结合的模型(ReLu)<br>
+<img src="https://unmaned-air.github.io/post-images/1650969880811.png" alt="" loading="lazy"><br>
+不断优化 <em>optimization</em><br>
 <img src="https://unmaned-air.github.io/post-images/1650894525891.jpg" alt="" loading="lazy"><br>
 据说，ReLu模型比较好。这样的模型就是<em>Neural</em>（神经元），变多了就变成了<em>Neural  network</em>，而这项技术进阶到现在就成为了 <strong>深度学习(<em>Deep Learning</em>)</strong><br>
 <img src="https://unmaned-air.github.io/post-images/1650895592134.jpg" alt="" loading="lazy"></li>
@@ -73,7 +75,7 @@
         </link>
         <updated>2022-04-25T11:47:01.000Z</updated>
         <content type="html"><![CDATA[<!-- more -->
-<p>（一）<a herf="http://localhost:4000/post/ji-qi-xue-xi-de-ji-ben-gai-nian/">基本概念</a></p>
+<p>（一）<a herf="http://localhost:4000/post/ji-qi-xue-xi-de-ji-ben-gai-nian/">机器学习相关概念</a></p>
 ]]></content>
     </entry>
     <entry>
