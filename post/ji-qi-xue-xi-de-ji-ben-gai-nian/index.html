@@ -2,18 +2,23 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>机器学习目录 | Gridea</title>
+<title>机器学习的基本概念 | Gridea</title>
 <link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1650942594638">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unmaned-air.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="机器学习目录 | Gridea - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="机器学习的基本概念 | Gridea - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
     <meta name="description" content="
-（一）基本概念
-" />
+虽然我想大喊”疫情滚出中国！！！“，并且我追忆学长学姐那不封校的日子，但我还是感谢它带给我了无限的学习时间，比如学习机器学习...
+
+
+大概念
+有监督学习 Supervised Learnig
+是数据集与问题都很明确的学习方法。
+监督学习..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -82,28 +87,90 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              机器学习目录
+              机器学习的基本概念
             </h2>
             <div class="post-info">
               <span>
                 2022-04-25
               </span>
               <span>
-                1 min read
+                2 min read
               </span>
               
             </div>
             
-              <img class="post-feature-image" src="https://unmaned-air.github.io/post-images/ji-qi-xue-xi-mu-lu.jpeg" alt="">
-            
             <div class="post-content-wrapper">
               <div class="post-content">
-                <!-- more -->
-<p>（一）<a herf="http://localhost:4000/post/ji-qi-xue-xi-de-ji-ben-gai-nian/">基本概念</a></p>
+                <blockquote>
+<p>虽然我想大喊”疫情滚出中国！！！“，并且我追忆学长学姐那不封校的日子，但我还是感谢它带给我了无限的学习时间，比如学习<em>机器学习</em>...</p>
+</blockquote>
+<!-- more -->
+<h3 id="大概念">大概念</h3>
+<h4 id="有监督学习-supervised-learnig"><strong>有监督学习</strong> <em>Supervised Learnig</em></h4>
+<p>是数据集与问题都很明确的学习方法。<br>
+监督学习也被称为”回归“问题，监督学习的另一个例子是”分类“问题。</p>
+<ul>
+<li>
+<p>“回归”：预测一个 <strong>连续</strong> 的值<br>
+<img src="https://unmaned-air.github.io/post-images/1650890705578.jpg" alt="" loading="lazy"></p>
+</li>
+<li>
+<p>“分类”：预测 <strong>离散值</strong> 的输出<br>
+<img src="https://unmaned-air.github.io/post-images/1650890715040.jpg" alt="" loading="lazy"></p>
+</li>
+</ul>
+<p>知识给我的难题：<br>
+<img src="https://unmaned-air.github.io/post-images/1650890740837.jpg" alt="" loading="lazy"></p>
+<h4 id="无监督学习-unsupervised-learnig"><strong>无监督学习</strong> <em>Unsupervised Learnig</em></h4>
+<p>数据集明确但问题不明确的学习方法。只是根据数据现有特征找出数据的结构，并不会被提前告知算法，完全根据机器自身确定数据结构。</p>
+<h4 id="学习成果进阶"><strong>学习成果进阶</strong></h4>
+<p>我们现在更需要机器为我们输出一个复杂的值（<em>structure</em>）。</p>
+<h3 id="相较简单的一些函数"><strong><s>相较简单</s>的一些函数</strong></h3>
+<ul>
+<li>
+<p>线性回归函数 <em>linear regression</em></p>
+<p><em>y=a<sub>1</sub>+a<sub>2</sub>x</em><br>
+...</p>
+</li>
+</ul>
+<p>梯度下降查找最优（<em>该情况下最贴切真实值</em>）参数a<sub>1</sub>，a<sub>2</sub>。<br>
+<img src="https://unmaned-air.github.io/post-images/1650889728435.jpg" alt="" loading="lazy"></p>
+<ul>
+<li>S型曲线 <em>sigmoid</em><br>
+<img src="https://unmaned-air.github.io/post-images/1650893780671.jpg" alt="" loading="lazy"></li>
+<li><em>more Features</em><br>
+多重函数结合的模型(ReLu)<br>
+<img src="https://unmaned-air.github.io/post-images/1650894525891.jpg" alt="" loading="lazy"><br>
+据说，ReLu模型比较好。这样的模型就是<em>Neural</em>（神经元），变多了就变成了<em>Neural  network</em>，而这项技术进阶到现在就成为了 <strong>深度学习(<em>Deep Learning</em>)</strong><br>
+<img src="https://unmaned-air.github.io/post-images/1650895592134.jpg" alt="" loading="lazy"></li>
+</ul>
+<h4 id="神经网络深度学习"><strong>神经网络——深度学习</strong></h4>
 
               </div>
               <div class="toc-container">
-                
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%A4%A7%E6%A6%82%E5%BF%B5">大概念</a>
+<ul>
+<li><a href="#%E6%9C%89%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0-supervised-learnig"><strong>有监督学习</strong> <em>Supervised Learnig</em></a></li>
+<li><a href="#%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0-unsupervised-learnig"><strong>无监督学习</strong> <em>Unsupervised Learnig</em></a></li>
+<li><a href="#%E5%AD%A6%E4%B9%A0%E6%88%90%E6%9E%9C%E8%BF%9B%E9%98%B6"><strong>学习成果进阶</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%9B%B8%E8%BE%83%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%80%E4%BA%9B%E5%87%BD%E6%95%B0"><strong><s>相较简单</s>的一些函数</strong></a>
+<ul>
+<li><a href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><strong>神经网络——深度学习</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
               </div>
             </div>
           </article>
@@ -112,9 +179,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://unmaned-air.github.io/post/ji-yu-kali-xu-ni-ji-de-wang-luo-shen-tou-bi-ji/">
+            <a href="https://unmaned-air.github.io/post/ji-qi-xue-xi-mu-lu/">
               <h3 class="post-title">
-                基于kali虚拟机的网络渗透笔记
+                机器学习目录
               </h3>
             </a>
           </div>

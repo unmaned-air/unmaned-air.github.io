@@ -2,18 +2,19 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>机器学习目录 | Gridea</title>
+<title>基于kali虚拟机的网络渗透技术(二)scapy DHCP基础 | Gridea</title>
 <link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1650942594638">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unmaned-air.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="机器学习目录 | Gridea - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="基于kali虚拟机的网络渗透技术(二)scapy DHCP基础 | Gridea - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="
-（一）基本概念
-" />
+    <meta name="description" content="DHCP协议概要
+
+动态主机配置协议（Dynamic Host Comfiguration Protocol），工作在应用层，是一个局域网的协议，主要用来给内部网络自动分配IP地址。
+DHCP服务器保管着IP地址，分配方式是按照硬件地址（M..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -82,11 +83,11 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              机器学习目录
+              基于kali虚拟机的网络渗透技术(二)scapy DHCP基础
             </h2>
             <div class="post-info">
               <span>
-                2022-04-25
+                2022-04-26
               </span>
               <span>
                 1 min read
@@ -94,30 +95,43 @@
               
             </div>
             
-              <img class="post-feature-image" src="https://unmaned-air.github.io/post-images/ji-qi-xue-xi-mu-lu.jpeg" alt="">
-            
             <div class="post-content-wrapper">
               <div class="post-content">
-                <!-- more -->
-<p>（一）<a herf="http://localhost:4000/post/ji-qi-xue-xi-de-ji-ben-gai-nian/">基本概念</a></p>
+                <h3 id="dhcp协议概要">DHCP协议概要</h3>
+<blockquote>
+<p>动态主机配置协议（<em>Dynamic Host Comfiguration Protocol</em>），工作在应用层，是一个局域网的协议，主要用来给内部网络自动分配IP地址。<br>
+DHCP服务器保管着IP地址，分配方式是按照硬件地址（MAC）分配IP地址。</p>
+</blockquote>
+<h3 id="dhcp的工作原理与流程">DHCP的工作原理与流程</h3>
+<ul>
+<li>客户端在局域网内发起一个<a herf="#one"><em>DHCP Discover</em></a>报文；</li>
+<li>接收到<em>DHCP Discover</em>包的服务端会向请求的客户端发送一个<a herf="#two"><em>DHCP Offer</em></a>报文;</li>
+<li>客户端会广播一个<a herf="#three"><em>DHCP Request</em></a>，声明自己选用的服务端和IP地址；</li>
+<li>服务端在接收到客户端广播的DHCP Request报文之后，就会判断该报文中的IP地址是否与自己的地址相同，如果相同，就会向客户端发送一个响应的<a herf="#four">DHCP ACK</a>报文。</li>
+</ul>
+<h3 id="python-如何实现">Python 如何实现</h3>
 
               </div>
               <div class="toc-container">
-                
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#dhcp%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%A6%81">DHCP协议概要</a></li>
+<li><a href="#dhcp%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%B8%8E%E6%B5%81%E7%A8%8B">DHCP的工作原理与流程</a></li>
+<li><a href="#python-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0">Python 如何实现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
               </div>
             </div>
           </article>
         </div>
 
-        
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://unmaned-air.github.io/post/ji-yu-kali-xu-ni-ji-de-wang-luo-shen-tou-bi-ji/">
-              <h3 class="post-title">
-                基于kali虚拟机的网络渗透笔记
-              </h3>
-            </a>
-          </div>
         
 
         

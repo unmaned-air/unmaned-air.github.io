@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unmaned-air.github.io</id>
     <title>Gridea</title>
-    <updated>2022-04-25T11:49:40.040Z</updated>
+    <updated>2022-04-26T03:09:59.448Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unmaned-air.github.io"/>
     <link rel="self" href="https://unmaned-air.github.io/atom.xml"/>
@@ -11,13 +11,69 @@
     <icon>https://unmaned-air.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, Gridea</rights>
     <entry>
+        <title type="html"><![CDATA[机器学习的基本概念]]></title>
+        <id>https://unmaned-air.github.io/post/ji-qi-xue-xi-de-ji-ben-gai-nian/</id>
+        <link href="https://unmaned-air.github.io/post/ji-qi-xue-xi-de-ji-ben-gai-nian/">
+        </link>
+        <updated>2022-04-25T11:51:25.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>虽然我想大喊”疫情滚出中国！！！“，并且我追忆学长学姐那不封校的日子，但我还是感谢它带给我了无限的学习时间，比如学习<em>机器学习</em>...</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>虽然我想大喊”疫情滚出中国！！！“，并且我追忆学长学姐那不封校的日子，但我还是感谢它带给我了无限的学习时间，比如学习<em>机器学习</em>...</p>
+</blockquote>
+<!-- more -->
+<h3 id="大概念">大概念</h3>
+<h4 id="有监督学习-supervised-learnig"><strong>有监督学习</strong> <em>Supervised Learnig</em></h4>
+<p>是数据集与问题都很明确的学习方法。<br>
+监督学习也被称为”回归“问题，监督学习的另一个例子是”分类“问题。</p>
+<ul>
+<li>
+<p>“回归”：预测一个 <strong>连续</strong> 的值<br>
+<img src="https://unmaned-air.github.io/post-images/1650890705578.jpg" alt="" loading="lazy"></p>
+</li>
+<li>
+<p>“分类”：预测 <strong>离散值</strong> 的输出<br>
+<img src="https://unmaned-air.github.io/post-images/1650890715040.jpg" alt="" loading="lazy"></p>
+</li>
+</ul>
+<p>知识给我的难题：<br>
+<img src="https://unmaned-air.github.io/post-images/1650890740837.jpg" alt="" loading="lazy"></p>
+<h4 id="无监督学习-unsupervised-learnig"><strong>无监督学习</strong> <em>Unsupervised Learnig</em></h4>
+<p>数据集明确但问题不明确的学习方法。只是根据数据现有特征找出数据的结构，并不会被提前告知算法，完全根据机器自身确定数据结构。</p>
+<h4 id="学习成果进阶"><strong>学习成果进阶</strong></h4>
+<p>我们现在更需要机器为我们输出一个复杂的值（<em>structure</em>）。</p>
+<h3 id="相较简单的一些函数"><strong><s>相较简单</s>的一些函数</strong></h3>
+<ul>
+<li>
+<p>线性回归函数 <em>linear regression</em></p>
+<p><em>y=a<sub>1</sub>+a<sub>2</sub>x</em><br>
+...</p>
+</li>
+</ul>
+<p>梯度下降查找最优（<em>该情况下最贴切真实值</em>）参数a<sub>1</sub>，a<sub>2</sub>。<br>
+<img src="https://unmaned-air.github.io/post-images/1650889728435.jpg" alt="" loading="lazy"></p>
+<ul>
+<li>S型曲线 <em>sigmoid</em><br>
+<img src="https://unmaned-air.github.io/post-images/1650893780671.jpg" alt="" loading="lazy"></li>
+<li><em>more Features</em><br>
+多重函数结合的模型(ReLu)<br>
+<img src="https://unmaned-air.github.io/post-images/1650894525891.jpg" alt="" loading="lazy"><br>
+据说，ReLu模型比较好。这样的模型就是<em>Neural</em>（神经元），变多了就变成了<em>Neural  network</em>，而这项技术进阶到现在就成为了 <strong>深度学习(<em>Deep Learning</em>)</strong><br>
+<img src="https://unmaned-air.github.io/post-images/1650895592134.jpg" alt="" loading="lazy"></li>
+</ul>
+<h4 id="神经网络深度学习"><strong>神经网络——深度学习</strong></h4>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[机器学习目录]]></title>
         <id>https://unmaned-air.github.io/post/ji-qi-xue-xi-mu-lu/</id>
         <link href="https://unmaned-air.github.io/post/ji-qi-xue-xi-mu-lu/">
         </link>
         <updated>2022-04-25T11:47:01.000Z</updated>
         <content type="html"><![CDATA[<!-- more -->
-<p>（一）<a herf="">基本概念</a></p>
+<p>（一）<a herf="http://localhost:4000/post/ji-qi-xue-xi-de-ji-ben-gai-nian/">基本概念</a></p>
 ]]></content>
     </entry>
     <entry>
@@ -27,40 +83,20 @@
         </link>
         <updated>2022-04-25T08:40:12.000Z</updated>
         <content type="html"><![CDATA[<p>（一）<a href= "http://localhost:4000/post/ji-yu-kali-xu-ni-ji-de-wang-luo-shen-tou-ji-zhu/">scapy基础</a><br>
-（二）<a href="">DHCP协议</a><br>
+（二）<a href="http://localhost:4000/post/ji-yu-kali-xu-ni-ji-de-wang-luo-shen-tou-ji-zhu-yi-scapy-dhcp-ji-chu/">DHCP协议</a><br>
 （三）DNS协议</p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://unmaned-air.github.io/post/hello-gridea/</id>
-        <link href="https://unmaned-air.github.io/post/hello-gridea/">
+        <title type="html"><![CDATA[安全感的来源是自己的能力]]></title>
+        <id>https://unmaned-air.github.io/post/an-quan-gan-de-lai-yuan-shi-zi-ji-de-neng-li/</id>
+        <link href="https://unmaned-air.github.io/post/an-quan-gan-de-lai-yuan-shi-zi-ji-de-neng-li/">
         </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+        <updated>2022-04-25T07:53:08.000Z</updated>
+        <summary type="html"><![CDATA[<p>现在开始还来得及</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+        <content type="html"><![CDATA[<p>现在开始还来得及</p>
 <!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
 ]]></content>
     </entry>
 </feed>

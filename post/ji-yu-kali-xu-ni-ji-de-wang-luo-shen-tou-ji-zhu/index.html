@@ -2,11 +2,11 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>基于kali虚拟机的网络渗透技术(一)scapy基础 | Gridea</title>
-<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1650887376771">
+<title>基于kali虚拟机的网络渗透技术(一)scapy数据包基础 | Gridea</title>
+<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1650942594638">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unmaned-air.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="基于kali虚拟机的网络渗透技术(一)scapy基础 | Gridea - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="基于kali虚拟机的网络渗透技术(一)scapy数据包基础 | Gridea - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
@@ -16,8 +16,8 @@
 但事物都具有两面性。感谢2022年4月的疫情让我的怨种导师监督我学习网络渗透
 
 
-利用 scapy 库
-😀 利用 pkt=Ether()/IP()/ICMP() 构建一个数据包，往往，我们可以对数据包做..." />
+__利用 scapy 库 __
+😀 利用 pkt=Ether()/IP()/ICMP() 构建一个数据包，往往，我们可以..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -27,7 +27,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://unmaned-air.github.io">
-  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1650887376771" alt="">
+  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1650942594638" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -86,7 +86,7 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              基于kali虚拟机的网络渗透技术(一)scapy基础
+              基于kali虚拟机的网络渗透技术(一)scapy数据包基础
             </h2>
             <div class="post-info">
               <span>
@@ -107,41 +107,43 @@
 但事物都具有两面性。感谢2022年4月的疫情让我的怨种导师监督我学习网络渗透</p>
 </blockquote>
 <!-- more -->
-<h3 id="利用-scapy-库">利用 <em>scapy</em> 库</h3>
+<h3 id="__利用-scapy-库-__">__利用 <em>scapy</em> 库 __</h3>
 <p>😀 利用 <em>pkt=Ether()/IP()/ICMP()</em> 构建一个数据包，往往，我们可以对数据包做出以下操作：</p>
-<ul>
-<li>😯显示数据包中的内容:<br>
-<em>pkt.raw()</em> 表示用字节格式显示内容<br>
+<h4 id="显示数据包中的内容"><strong>😯显示数据包中的内容:</strong></h4>
+<p><em>pkt.raw()</em> 表示用字节格式显示内容<br>
 <em>hexdump()</em> 十六进制显示<br>
 <em>pkt.summary()</em> 用不超过一行的摘要描述数据包<br>
 <em>pkt.show()</em> 用表单显示数据<br>
-实现示例：<pre><code class="language-python">from scapy.all import *
-pkt=Ether()/IP()/ICMP()
-print(&quot;pkt.raw()\n&quot;)
-print(raw(pkt))
-print(&quot;hexdump()\n&quot;)
-print(hexdump(pkt))
-print(&quot;pkt.summary()\n&quot;)
-print(pkt.summary())
-print(&quot;pkt.show()\n&quot;)
-pkt.show()
-</code></pre>
-</li>
-</ul>
-<p><img src="https://unmaned-air.github.io/post-images/1650875445799.png" alt="" loading="lazy">&quot;</p>
-<ul>
-<li>😠抓数据包<br>
-<em>wepcap(&quot;file.cap&quot;,pkt)</em> 后者指要保存的数据包，前者指保存去的文件名<br>
+实现示例：<br>
+<code>python from scapy.all import * pkt=Ether()/IP()/ICMP() print(&quot;pkt.raw()\n&quot;) print(raw(pkt)) print(&quot;hexdump()\n&quot;) print(hexdump(pkt)) print(&quot;pkt.summary()\n&quot;) print(pkt.summary()) print(&quot;pkt.show()\n&quot;) pkt.show()</code><br>
+<img src="https://unmaned-air.github.io/post-images/1650875445799.png" alt="" loading="lazy">&quot;</p>
+<h4 id="抓数据包"><strong>😠抓数据包</strong></h4>
+<p><em>wepcap(&quot;file.cap&quot;,pkt)</em> 后者指要保存的数据包，前者指保存去的文件名<br>
 <em>rec = rddpcap(&quot;file.cap&quot;)</em> 读取数据包<br>
-实现示例：</li>
-<li>🤓发送数据包<br>
-<em>send()</em> 对IP地址发送数据包<br>
+实现示例：</p>
+<pre><code class="language-python">from scapy.all import *
+pkt=IP()/ICMP()
+print(&quot;get\n&quot;)
+wrpcap(&quot;get.cap&quot;,pkt)
+print(&quot;read\n&quot;)
+rec=rdpcap(&quot;get.cap&quot;)
+</code></pre>
+<pre><code>![](https://unmaned-air.github.io/post-images/1650896283998.png)
+</code></pre>
+<h4 id="发送数据包"><strong>🤓发送数据包</strong></h4>
+<p><em>send()</em> 对IP地址发送数据包<br>
 <em>sendp()</em> 对硬件地址发送数据包（MAC）<br>
-实现示例：</li>
-<li>
-<h2 id="发送和接受">发送和接受</h2>
-</li>
-</ul>
+实现示例：</p>
+<h4 id="发送和接受"><strong>😋发送和接受</strong></h4>
+<p>*sr()*用于IP地址<br>
+<em>srp()<em>用于MAC地址</em>（物理地址）</em><br>
+实现示例：</p>
+<h4 id="抓包函数"><strong>😏抓包函数：</strong></h4>
+<p><em>sniff(filter= ... ,iface=&quot;  ...&quot;,prn= ... ,count= ... )</em> 参数说明：<br>
+filter：过滤器，要监听的地址（ 要抓<mark>什么样的数据包</mark> ）<br>
+iface：用来指定要用的网卡（从哪作为<mark>去抓</mark>数据包的地方）<br>
+prn：指向一个函数，是要对数据包做的处理（做什么）<br>
+cout：指定要监听到的数据包的数量</p>
 
               </div>
               <div class="toc-container">
@@ -150,10 +152,17 @@ pkt.show()
 <ul>
 <li>
 <ul>
-<li><a href="#%E5%88%A9%E7%94%A8-scapy-%E5%BA%93">利用 <em>scapy</em> 库</a></li>
+<li><a href="#__%E5%88%A9%E7%94%A8-scapy-%E5%BA%93-__">__利用 <em>scapy</em> 库 __</a>
+<ul>
+<li><a href="#%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE%E5%8C%85%E4%B8%AD%E7%9A%84%E5%86%85%E5%AE%B9"><strong>😯显示数据包中的内容:</strong></a></li>
+<li><a href="#%E6%8A%93%E6%95%B0%E6%8D%AE%E5%8C%85"><strong>😠抓数据包</strong></a></li>
+<li><a href="#%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%8C%85"><strong>🤓发送数据包</strong></a></li>
+<li><a href="#%E5%8F%91%E9%80%81%E5%92%8C%E6%8E%A5%E5%8F%97"><strong>😋发送和接受</strong></a></li>
+<li><a href="#%E6%8A%93%E5%8C%85%E5%87%BD%E6%95%B0"><strong>😏抓包函数：</strong></a></li>
 </ul>
 </li>
-<li><a href="#%E5%8F%91%E9%80%81%E5%92%8C%E6%8E%A5%E5%8F%97">发送和接受</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
