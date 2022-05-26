@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unmaned-air.github.io</id>
     <title>Gridea</title>
-    <updated>2022-04-26T10:46:29.903Z</updated>
+    <updated>2022-05-26T07:12:57.756Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unmaned-air.github.io"/>
     <link rel="self" href="https://unmaned-air.github.io/atom.xml"/>
@@ -11,71 +11,16 @@
     <icon>https://unmaned-air.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, Gridea</rights>
     <entry>
-        <title type="html"><![CDATA[机器学习的基本概念]]></title>
-        <id>https://unmaned-air.github.io/post/ji-qi-xue-xi-de-ji-ben-gai-nian/</id>
-        <link href="https://unmaned-air.github.io/post/ji-qi-xue-xi-de-ji-ben-gai-nian/">
-        </link>
-        <updated>2022-04-25T11:51:25.000Z</updated>
-        <summary type="html"><![CDATA[<blockquote>
-<p>虽然我想大喊”疫情滚出中国！！！“，并且我追忆学长学姐那不封校的日子，但我还是感谢它带给我了无限的学习时间，比如学习<em>机器学习</em>...</p>
-</blockquote>
-]]></summary>
-        <content type="html"><![CDATA[<blockquote>
-<p>虽然我想大喊”疫情滚出中国！！！“，并且我追忆学长学姐那不封校的日子，但我还是感谢它带给我了无限的学习时间，比如学习<em>机器学习</em>...</p>
-</blockquote>
-<!-- more -->
-<h3 id="大概念">大概念</h3>
-<h4 id="有监督学习-supervised-learnig"><strong>有监督学习</strong> <em>Supervised Learnig</em></h4>
-<p>是数据集与问题都很明确的学习方法。<br>
-监督学习也被称为”回归“问题，监督学习的另一个例子是”分类“问题。</p>
-<ul>
-<li>
-<p>“回归”：预测一个 <strong>连续</strong> 的值<br>
-<img src="https://unmaned-air.github.io/post-images/1650890705578.jpg" alt="" loading="lazy"></p>
-</li>
-<li>
-<p>“分类”：预测 <strong>离散值</strong> 的输出<br>
-<img src="https://unmaned-air.github.io/post-images/1650890715040.jpg" alt="" loading="lazy"></p>
-</li>
-</ul>
-<p>知识给我的难题：<br>
-<img src="https://unmaned-air.github.io/post-images/1650890740837.jpg" alt="" loading="lazy"></p>
-<h4 id="无监督学习-unsupervised-learnig"><strong>无监督学习</strong> <em>Unsupervised Learnig</em></h4>
-<p>数据集明确但问题不明确的学习方法。只是根据数据现有特征找出数据的结构，并不会被提前告知算法，完全根据机器自身确定数据结构。</p>
-<h4 id="学习成果进阶"><strong>学习成果进阶</strong></h4>
-<p>我们现在更需要机器为我们输出一个复杂的值（<em>structure</em>）。</p>
-<h3 id="相较简单的一些函数"><strong><s>相较简单</s>的一些函数</strong></h3>
-<ul>
-<li>
-<p>线性回归函数 <em>linear regression</em></p>
-<p><em>y=a<sub>1</sub>+a<sub>2</sub>x</em><br>
-...</p>
-</li>
-</ul>
-<p>梯度下降查找最优（<em>该情况下最贴切真实值</em>）参数a<sub>1</sub>，a<sub>2</sub>。<br>
-<img src="https://unmaned-air.github.io/post-images/1650889728435.jpg" alt="" loading="lazy"></p>
-<ul>
-<li>S型曲线 <em>sigmoid</em><br>
-<img src="https://unmaned-air.github.io/post-images/1650893780671.jpg" alt="" loading="lazy"></li>
-<li><em>more Features</em><br>
-多重函数结合的模型(ReLu)<br>
-<img src="https://unmaned-air.github.io/post-images/1650969880811.png" alt="" loading="lazy"><br>
-不断优化 <em>optimization</em><br>
-<img src="https://unmaned-air.github.io/post-images/1650894525891.jpg" alt="" loading="lazy"><br>
-据说，ReLu模型比较好。这样的模型就是<em>Neural</em>（神经元），变多了就变成了<em>Neural  network</em>，而这项技术进阶到现在就成为了 <strong>深度学习(<em>Deep Learning</em>)</strong><br>
-<img src="https://unmaned-air.github.io/post-images/1650895592134.jpg" alt="" loading="lazy"></li>
-</ul>
-<h4 id="神经网络深度学习"><strong>神经网络——深度学习</strong></h4>
-]]></content>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[机器学习目录]]></title>
         <id>https://unmaned-air.github.io/post/ji-qi-xue-xi-mu-lu/</id>
         <link href="https://unmaned-air.github.io/post/ji-qi-xue-xi-mu-lu/">
         </link>
         <updated>2022-04-25T11:47:01.000Z</updated>
-        <content type="html"><![CDATA[<!-- more -->
-<p>（一）<a herf="http://localhost:4000/post/ji-qi-xue-xi-de-ji-ben-gai-nian/">机器学习相关概念</a></p>
+        <summary type="html"><![CDATA[<p>听我说，谢谢你：）</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>听我说，谢谢你：）</p>
+<!-- more -->
+<p>（一）<a href="http://localhost:4000/post/ji-qi-xue-xi-de-ji-ben-gai-nian/">机器学习相关概念</a></p>
 ]]></content>
     </entry>
     <entry>

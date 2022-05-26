@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>基于kali虚拟机的网络渗透技术(二)scapy DHCP基础 | Gridea</title>
-<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1650969987920">
+<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1653549158809">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unmaned-air.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="基于kali虚拟机的网络渗透技术(二)scapy DHCP基础 | Gridea - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
@@ -24,7 +24,7 @@ DHCP服务器保管着IP地址，分配方式是按照硬件地址（M..." />
       <div class="main-content">
         <div class="site-header">
   <a href="https://unmaned-air.github.io">
-  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1650969987920" alt="">
+  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1653549158809" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -90,7 +90,7 @@ DHCP服务器保管着IP地址，分配方式是按照硬件地址（M..." />
                 2022-04-26
               </span>
               <span>
-                2 min read
+                4 min read
               </span>
               
             </div>
@@ -104,9 +104,9 @@ DHCP服务器保管着IP地址，分配方式是按照硬件地址（MAC）分�
 </blockquote>
 <h3 id="dhcp的工作原理与流程">DHCP的工作原理与流程</h3>
 <ul>
-<li>客户端在局域网内发起一个 <em>DHCP Discover</em> 报文；</li>
-<li>接收到<em>DHCP Discover</em>包的服务端会向请求的客户端发送一个 <em>DHCP Offer</em> 报文;</li>
-<li>客户端会广播一个<em>DHCP Request</em>，声明自己选用的服务端和IP地址；</li>
+<li>客户端在局域网内发起一个 <a href="#ah"><em>DHCP Discover</em> </a>报文；</li>
+<li>接收到<em>DHCP Discover</em>包的服务端会向请求的客户端发送一个 <a href="#ahh"><em>DHCP Offer</em> </a>报文;</li>
+<li>客户端会广播一个<a href="#ahhh"><em>DHCP Request</em></a>，声明自己选用的服务端和IP地址；</li>
 <li>服务端在接收到客户端广播的DHCP Request报文之后，就会判断该报文中的IP地址是否与自己的地址相同，如果相同，就会向客户端发送一个响应的DHCP ACK报文。</li>
 </ul>
 <blockquote>
@@ -119,7 +119,7 @@ ls(BOOTP)
 ls(DHCP)
 </code></pre>
 <ul>
-<li><em>DHCP Discover</em> 数据包的构造：<br>
+<li><a id="ah"><em>DHCP Discover</em></a>数据包的构造：<br>
 利用*RandMAC()*函数生成随机地址</li>
 </ul>
 <pre><code class="language-python">mac_random = str(RandMAC()) //转化成字符串形式
@@ -131,14 +131,53 @@ Ether_Discover = Ether(src = mac.random,dst=&quot;ff:ff:ff:ff:ff:ff&quot;)//16�
 import binascii
 xid_random = random.randint(1,100000000)
 mac_random = str(RandMAC())
-dhcp_discover = Ether(src=mac_random,dst=&quot;ff:ff:ff:ff:ff:ff&quot;)/IP(src=&quot;0.0.0.0&quot;,dst=&quot;255.255.255.255&quot;)/UDP(sport=68,dport=67)/BOOTP(chaddr=mac_random,xid=xid_random,flags=32768)/DHCP(options=[(&quot;message-type&quot;,&quot;discover&quot;),&quot;end&quot;])
+dhcp_discover = Ether(src=mac_random,dst=&quot;ff:ff:ff:ff:ff:ff&quot;)/IP(src=&quot;0.0.0.0&quot;,dst=&quot;255.255.255.255&quot;)/UDP(sport=68,dport=67)/BOOTP(chaddr=mac_random,xid=xid_random,flags=32768)/DHCP(options=[(&quot;message-type&quot;,&quot;discover&quot;),&quot;end&quot;])# sport：发出；dport：目标.  客户端：68；服务端：67.
 sendp(dhcp_discover,iface='eth0')
 print(&quot;yep______________________&quot;)
 </code></pre>
 <figure data-type="image" tabindex="1"><img src="https://unmaned-air.github.io/post-images/1650969152294.png" alt="" loading="lazy"></figure>
 <ul>
-<li>捕获DHCP offer数据包</li>
+<li>捕获<a id="ahh"><em>DHCP offer</em></a>数据包<br>
+先运行如下程序</li>
 </ul>
+<pre><code class="language-python">from scapy.all import *
+def d_d(pkt):
+    if DHCP in pkt:
+        pkt.show()
+sniff(filter=&quot;src port 67&quot;,prn=d_d,coun=1)
+</code></pre>
+<p>再运行discover，得到下列数据<br>
+<img src="https://unmaned-air.github.io/post-images/1650973730571.png" alt="" loading="lazy"></p>
+<ul>
+<li>构造<a id="ahhh"><em>DHCP Request</em></a>数据包</li>
+</ul>
+<ol>
+<li>Ether部分需要设置两个参数src和dst</li>
+<li>IP部分也是设置两个参数src和dst</li>
+<li>传输层协议位UDP</li>
+<li>BOOTP中需要指明xid和本机的MAC地址</li>
+<li>DHCP中需要指明DHCP服务端的IP地址和申请的IP地址</li>
+</ol>
+<blockquote>
+<p>Request = Ether_Request*()/IP_Request()/UDP_Request()/BOOTP()/DHCP_Request()</p>
+</blockquote>
+<p>示例：</p>
+<pre><code class="language-python">from scapy.all import*
+def detect_dhcp(pkt):
+    if DHCP in pkt:
+        if pkt[DHCP].options[0][1]==2:
+            E_R = Ether(src = pkt[BOOTP].chaddr,dst = pkt[Ether].src)
+            I_R = IP(src=&quot;0.0.0.0&quot;,dst=&quot;255.255.255.255&quot;)
+            U_R = UDP(sport = 68,dport = 67)
+            B_R = BOOTP(chaddr=pkt[BOOTP].chaddr,xid = pkt[BOORP].xid)
+            D_R = DHCP(options=[(&quot;message-type&quot;,'request),(&quot;server_id&quot;,pkt[DHCP].options[1][1]),(&quot;requested_addr&quot;,pkt[BOOTP].yiaddr),&quot;end&quot;])
+             R=E_R/I_R/U_R/B_R/D_R
+             sendp(R,iface='eth0')
+             print(pkt[BOOTP].yiaddr+&quot;distributing&quot;)
+     if pkt[DHCP].options[0][1]==5:
+         print(pkt[BOOTP].yiaddr+&quot;distributed&quot;)
+ sniff(filter=&quot;src port 67&quot;,prn=d_d,count=3)
+</code></pre>
 
               </div>
               <div class="toc-container">
