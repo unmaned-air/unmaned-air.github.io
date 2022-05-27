@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unmaned-air.github.io</id>
     <title>Gridea</title>
-    <updated>2022-05-27T15:37:39.725Z</updated>
+    <updated>2022-05-27T15:47:37.216Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unmaned-air.github.io"/>
     <link rel="self" href="https://unmaned-air.github.io/atom.xml"/>
@@ -10,20 +10,6 @@
     <logo>https://unmaned-air.github.io/images/avatar.png</logo>
     <icon>https://unmaned-air.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, Gridea</rights>
-    <entry>
-        <title type="html"><![CDATA[赋值兼容性规则]]></title>
-        <id>https://unmaned-air.github.io/post/fu-zhi-jian-rong-xing-gui-ze/</id>
-        <link href="https://unmaned-air.github.io/post/fu-zhi-jian-rong-xing-gui-ze/">
-        </link>
-        <updated>2022-05-27T15:20:35.000Z</updated>
-        <content type="html"><![CDATA[<ul>
-<li>派生类对象可以向基类对象赋值，即用派生类对象中从基类继承来的数据成员，逐个赋值给类对象的数据成员。</li>
-<li>派生类对象可以初始化基类对象的引用。</li>
-<li>派生类对象的地址可以赋给指向基类对象的指针</li>
-<li>如果函数的形参是基类对象或者基类对象的引用，在调用函数时可以用派生类对象作为实参。</li>
-</ul>
-]]></content>
-    </entry>
     <entry>
         <title type="html"><![CDATA[期末前夕的C++]]></title>
         <id>https://unmaned-air.github.io/post/qi-mo-qian-xi-de-c/</id>
@@ -36,11 +22,11 @@
 <h3 id="一些容易被搞到的知识点">一些容易被搞到的知识点</h3>
 <ul>
 <li>编写C++程序一般需要经过的几个步骤依次是：<em>编辑、编译、连接、运行</em></li>
-<li><a href="">赋值兼容性规则</a>是指派生类对象可以当作基类对象使用，只要存在继承关系，所以单继承或多继承都适用。</li>
+<li><a href="https://unmaned-air.github.io/post/fu-zhi-jian-rong-xing-gui-ze/">赋值兼容性规则</a>是指派生类对象可以当作基类对象使用，只要存在继承关系，所以单继承或多继承都适用。</li>
 <li></li>
 </ul>
 <h3 id="空指针和野指针">空指针和野指针</h3>
-<p>**空指针：**指针变量指向内存中编号为0的空间，可以初始化指针变量（<em>因为野指针野一点</em>），但空指针指向的内存是不可以访问的。<br>
+<p><strong>空指针：</strong> 指针变量指向内存中编号为0的空间，可以初始化指针变量（<em>因为野指针野一点</em>），但空指针指向的内存是不可以访问的。<br>
 <strong>野指针：</strong> 指针变量指向非法的空间（<em>比如指向地址编号为某某的空间，比如指针指向数组溢出的位置</em>）</p>
 <h3 id="const修饰指针">const修饰指针</h3>
 <ul>
