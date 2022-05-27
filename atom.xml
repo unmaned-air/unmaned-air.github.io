@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unmaned-air.github.io</id>
     <title>Gridea</title>
-    <updated>2022-05-26T07:22:53.333Z</updated>
+    <updated>2022-05-27T15:35:32.442Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unmaned-air.github.io"/>
     <link rel="self" href="https://unmaned-air.github.io/atom.xml"/>
@@ -10,6 +10,236 @@
     <logo>https://unmaned-air.github.io/images/avatar.png</logo>
     <icon>https://unmaned-air.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[赋值兼容性规则]]></title>
+        <id>https://unmaned-air.github.io/post/fu-zhi-jian-rong-xing-gui-ze/</id>
+        <link href="https://unmaned-air.github.io/post/fu-zhi-jian-rong-xing-gui-ze/">
+        </link>
+        <updated>2022-05-27T15:20:35.000Z</updated>
+        <content type="html"><![CDATA[<ul>
+<li>派生类对象可以向基类对象赋值，即用派生类对象中从基类继承来的数据成员，逐个赋值给类对象的数据成员。</li>
+<li>派生类对象可以初始化基类对象的引用。</li>
+<li>派生类对象的地址可以赋给指向基类对象的指针</li>
+<li>如果函数的形参是基类对象或者基类对象的引用，在调用函数时可以用派生类对象作为实参。</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[期末前夕的C++]]></title>
+        <id>https://unmaned-air.github.io/post/qi-mo-qian-xi-de-c/</id>
+        <link href="https://unmaned-air.github.io/post/qi-mo-qian-xi-de-c/">
+        </link>
+        <updated>2022-05-27T03:17:39.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>以下是我在复习的过程中发现的华点</p>
+</blockquote>
+<h3 id="一些容易被搞到的知识点">一些容易被搞到的知识点</h3>
+<ul>
+<li>编写C++程序一般需要经过的几个步骤依次是：<em>编辑、编译、连接、运行</em></li>
+<li><a href="">赋值兼容性规则</a>是指派生类对象可以当作基类对象使用，只要存在继承关系，所以单继承或多继承都适用。</li>
+<li></li>
+</ul>
+<h3 id="空指针和野指针">空指针和野指针</h3>
+<p>**空指针：**指针变量指向内存中编号为0的空间，可以初始化指针变量（<em>因为野指针野一点</em>），但空指针指向的内存是不可以访问的。<br>
+<strong>野指针：</strong> 指针变量指向非法的空间（<em>比如指向地址编号为某某的空间，比如指针指向数组溢出的位置</em>）</p>
+<h3 id="const修饰指针">const修饰指针</h3>
+<ul>
+<li>常量的指针（<em>const int</em>  *p）<br>
+指针指向可以修改，但指针指向的值不可修改<br>
+<em>理解为const int 后面带了个  * 指针</em></li>
+<li>指针的常量（<em>int * const</em>）<br>
+指针指向不可修改，指针指向的值可以修改<br>
+<em>理解为 * 后面带着const ，const关键字修饰的是指针变量</em></li>
+<li>同时修饰<br>
+指针指向与指针指向的值都不可以修改。</li>
+</ul>
+<pre><code class="language-C++">int main() {
+
+	int a = 10;
+	int b = 10;
+
+	//const修饰的是指针，指针指向可以改，指针指向的值不可以更改
+	const int * p1 = &amp;a; 
+	p1 = &amp;b; //正确
+	//*p1 = 100;  报错
+	
+
+	//const修饰的是常量，指针指向不可以改，指针指向的值可以更改
+	int * const p2 = &amp;a;
+	//p2 = &amp;b; //错误
+	*p2 = 100; //正确
+
+    //const既修饰指针又修饰常量
+	const int * const p3 = &amp;a;
+	//p3 = &amp;b; //错误
+	//*p3 = 100; //错误
+
+	system(&quot;pause&quot;);
+
+	return 0;
+}
+</code></pre>
+<h3 id="内存分区模型">内存分区模型</h3>
+<ol>
+<li>代码区：就是代码所占的内存；</li>
+<li>全局区：存放全局变量和静态变量；</li>
+<li>栈区：由编译器自动分配释放，存放函数的参数值、局部变量等；</li>
+<li>堆区：由程序员分配和释放，若程序员不释放，程序结束时由操作系统回收。（<em>new</em>）</li>
+</ol>
+<blockquote>
+<p>不同区域存放的数据赋予不同的生命周期，给我们更大的灵活编程</p>
+</blockquote>
+<h3 id="new操作符">new操作符</h3>
+<p>C++中利用new操作符在堆区开辟内存，在程序的最后要记得 <em>delete</em> 数据。<br>
+利用new创建的数据，会返回该数据对应类型的指针。<br>
+需要注意的是开辟数组的时候的操作是层层覆盖的。</p>
+<ul>
+<li>示例1</li>
+</ul>
+<pre><code class="language-C++">int* func()
+{
+	int* a = new int(10);
+	return a;
+}
+int main() {
+	int *p = func();
+	cout &lt;&lt; *p &lt;&lt; endl;
+	//利用delete释放堆区数据
+	delete p;
+	//cout &lt;&lt; *p &lt;&lt; endl; //报错，释放的空间不可访问
+	return 0;
+}
+</code></pre>
+<ul>
+<li>示例2</li>
+</ul>
+<pre><code class="language-C++">//堆区开辟数组
+int main() {
+	int* arr = new int[10];
+	for (int i = 0; i &lt; 10; i++)
+	{
+		arr[i] = i + 100;
+	}
+	for (int i = 0; i &lt; 10; i++)
+	{
+		cout &lt;&lt; arr[i] &lt;&lt; endl;
+	}
+	//释放数组 delete 后加 []
+	delete[] arr;
+	return 0;
+}
+</code></pre>
+<ul>
+<li>示例3</li>
+</ul>
+<pre><code class="language-C++">//动态内存分配
+//new开辟二维数组空间
+#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+void chan(int **a)
+{
+	int b[3][3];
+	for (int i = 0; i &lt; 3; ++i)
+		for (int j = 0; j &lt; 3; ++j)
+			b[i][j] = a[j][i];
+	for (int i = 0; i &lt; 3; ++i)
+		for (int j = 0; j &lt; 3; ++j)
+			a[i][j] = b[i][j];
+}
+
+int main()
+{
+	int **a;
+	a = new int*[3];
+	for (int i = 0; i &lt; 3; ++i)
+		a[i] = new int[3];
+	int k = 0;
+
+	for (int i = 0; i &lt; 3; ++i)
+		for (int j = 0; j &lt; 3; ++j)
+			a[i][j] = k++;
+
+	chan(a);
+	for (int i = 0; i &lt; 3; ++i)
+	{
+		for (int j = 0; j &lt; 3; ++j)
+			cout &lt;&lt; a[i][j] &lt;&lt; ' ';
+		cout &lt;&lt; endl;
+	}
+	for (int i = 0; i &lt; 3; ++i)
+		delete[] a[i];
+	delete[] a;
+	return 0;
+}
+</code></pre>
+<h3 id="引用">引用</h3>
+<h5 id="注意事项">注意事项</h5>
+<ul>
+<li>引用必须初始化。</li>
+</ul>
+<blockquote>
+<p>引用变量是一个别名，也就是说它是某个已存在变量的另一个名字。一旦把引用初始化为某个变量，就可以使用该引用名称或变量名称来指向变量。</p>
+</blockquote>
+<ul>
+<li>引用在初始化之后不可以改变。</li>
+</ul>
+<h5 id="引用和指针的不同之处">引用和指针的不同之处</h5>
+<ul>
+<li>不存在空引用。引用必须连接到一块合法的内存。</li>
+<li>一旦引用被初始化一个对象，就不能被指向到另一个对象。指针可以再任何时候指向到另一个对象。但是指针可以在 <strong>任何时间</strong> 指向到另一个对象。</li>
+<li>引用必须在创建时被初始化。指针可以在任何时间被初始化</li>
+</ul>
+<h5 id="把引用作为参数值与返回值">把引用作为参数值与返回值</h5>
+<pre><code>C中有利用&amp;达到传入数字进行swap操作，C++中同样有类似操作
+</code></pre>
+<pre><code class="language-C">#include&lt;stdio.h&gt;
+void swap(int* a, int* b)
+{
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+int main()
+{
+	int a = 10;
+	int b = 20;
+	swap(&amp;a, &amp;b);
+	printf(&quot;%d,%d&quot;, a, b);
+	return 0;
+}
+</code></pre>
+<ul>
+<li>C++中把引用作为参数</li>
+</ul>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+void swap(int&amp; x, int&amp; y);
+int main ()
+{
+   int a = 100;
+   int b = 200;
+   cout &lt;&lt; &quot;交换前，a 的值：&quot; &lt;&lt; a &lt;&lt; endl;
+   cout &lt;&lt; &quot;交换前，b 的值：&quot; &lt;&lt; b &lt;&lt; endl;
+   swap(a, b);//最突出的一点是a,b不带任何符号，但却能进行换位
+   cout &lt;&lt; &quot;交换后，a 的值：&quot; &lt;&lt; a &lt;&lt; endl;
+   cout &lt;&lt; &quot;交换后，b 的值：&quot; &lt;&lt; b &lt;&lt; endl;
+ 
+   return 0;
+}
+void swap(int&amp; x, int&amp; y)
+{
+   int temp;
+   temp = x; /* 保存地址 x 的值 */
+   x = y;    /* 把 y 赋值给 x */
+   y = temp; /* 把 x 赋值给 y  */
+  
+   return;
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[机器学习目录]]></title>
         <id>https://unmaned-air.github.io/post/ji-qi-xue-xi-mu-lu/</id>
