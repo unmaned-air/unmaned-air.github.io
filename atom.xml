@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unmaned-air.github.io</id>
     <title>Gridea</title>
-    <updated>2022-05-27T15:47:37.216Z</updated>
+    <updated>2022-05-27T15:50:30.894Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unmaned-air.github.io"/>
     <link rel="self" href="https://unmaned-air.github.io/atom.xml"/>
@@ -227,6 +227,95 @@ void swap(int&amp; x, int&amp; y)
 ]]></content>
     </entry>
     <entry>
+        <title type="html"><![CDATA[基于kali虚拟机的网络渗透技术(二)scapy DHCP基础]]></title>
+        <id>https://unmaned-air.github.io/post/ji-yu-kali-xu-ni-ji-de-wang-luo-shen-tou-ji-zhu-yi-scapy-dhcp-ji-chu/</id>
+        <link href="https://unmaned-air.github.io/post/ji-yu-kali-xu-ni-ji-de-wang-luo-shen-tou-ji-zhu-yi-scapy-dhcp-ji-chu/">
+        </link>
+        <updated>2022-04-26T02:19:34.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="dhcp协议概要">DHCP协议概要</h3>
+<blockquote>
+<p>动态主机配置协议（<em>Dynamic Host Comfiguration Protocol</em>），工作在应用层，是一个局域网的协议，主要用来给内部网络自动分配IP地址。<br>
+DHCP服务器保管着IP地址，分配方式是按照硬件地址（MAC）分配IP地址。</p>
+</blockquote>
+<h3 id="dhcp的工作原理与流程">DHCP的工作原理与流程</h3>
+<ul>
+<li>客户端在局域网内发起一个 <a href="#ah"><em>DHCP Discover</em> </a>报文；</li>
+<li>接收到<em>DHCP Discover</em>包的服务端会向请求的客户端发送一个 <a href="#ahh"><em>DHCP Offer</em> </a>报文;</li>
+<li>客户端会广播一个<a href="#ahhh"><em>DHCP Request</em></a>，声明自己选用的服务端和IP地址；</li>
+<li>服务端在接收到客户端广播的DHCP Request报文之后，就会判断该报文中的IP地址是否与自己的地址相同，如果相同，就会向客户端发送一个响应的DHCP ACK报文。</li>
+</ul>
+<blockquote>
+<p>DHCP的前身是BOOTP协议，DHCP比BOOTP更复杂，功能也更加强大，<mark>但是在scapy和WireShark等流行工具中还是将DHCP协议分成DHCP和BOOTP两个部分来看待。</mark></p>
+</blockquote>
+<h3 id="python-如何实现">Python 如何实现</h3>
+<p>利用 <em>ls()</em> 函数可以查找相关参数，我们利用以下程序查看scapy中两个部分的内容：</p>
+<pre><code class="language-Python">from scapy.all import *
+ls(BOOTP)
+ls(DHCP)
+</code></pre>
+<ul>
+<li><a id="ah"><em>DHCP Discover</em></a>数据包的构造：<br>
+利用*RandMAC()*函数生成随机地址</li>
+</ul>
+<pre><code class="language-python">mac_random = str(RandMAC()) //转化成字符串形式
+Ether_Discover = Ether(src = mac.random,dst=&quot;ff:ff:ff:ff:ff:ff&quot;)//16个f是广播的意思
+</code></pre>
+<p><em>BOOTP</em> 协议要设置的参数有<em>xid</em>、<em>chaddr</em>（<em>和以太中出现的src应该相同</em>）<br>
+<em>DHCP</em> 协议要设置的参数是<em>options</em></p>
+<pre><code class="language-python">from scapy.all import *
+import binascii
+xid_random = random.randint(1,100000000)
+mac_random = str(RandMAC())
+dhcp_discover = Ether(src=mac_random,dst=&quot;ff:ff:ff:ff:ff:ff&quot;)/IP(src=&quot;0.0.0.0&quot;,dst=&quot;255.255.255.255&quot;)/UDP(sport=68,dport=67)/BOOTP(chaddr=mac_random,xid=xid_random,flags=32768)/DHCP(options=[(&quot;message-type&quot;,&quot;discover&quot;),&quot;end&quot;])# sport：发出；dport：目标.  客户端：68；服务端：67.
+sendp(dhcp_discover,iface='eth0')
+print(&quot;yep______________________&quot;)
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://unmaned-air.github.io/post-images/1650969152294.png" alt="" loading="lazy"></figure>
+<ul>
+<li>捕获<a id="ahh"><em>DHCP offer</em></a>数据包<br>
+先运行如下程序</li>
+</ul>
+<pre><code class="language-python">from scapy.all import *
+def d_d(pkt):
+    if DHCP in pkt:
+        pkt.show()
+sniff(filter=&quot;src port 67&quot;,prn=d_d,coun=1)
+</code></pre>
+<p>再运行discover，得到下列数据<br>
+<img src="https://unmaned-air.github.io/post-images/1650973730571.png" alt="" loading="lazy"></p>
+<ul>
+<li>构造<a id="ahhh"><em>DHCP Request</em></a>数据包</li>
+</ul>
+<ol>
+<li>Ether部分需要设置两个参数src和dst</li>
+<li>IP部分也是设置两个参数src和dst</li>
+<li>传输层协议位UDP</li>
+<li>BOOTP中需要指明xid和本机的MAC地址</li>
+<li>DHCP中需要指明DHCP服务端的IP地址和申请的IP地址</li>
+</ol>
+<blockquote>
+<p>Request = Ether_Request*()/IP_Request()/UDP_Request()/BOOTP()/DHCP_Request()</p>
+</blockquote>
+<p>示例：</p>
+<pre><code class="language-python">from scapy.all import*
+def detect_dhcp(pkt):
+    if DHCP in pkt:
+        if pkt[DHCP].options[0][1]==2:
+            E_R = Ether(src = pkt[BOOTP].chaddr,dst = pkt[Ether].src)
+            I_R = IP(src=&quot;0.0.0.0&quot;,dst=&quot;255.255.255.255&quot;)
+            U_R = UDP(sport = 68,dport = 67)
+            B_R = BOOTP(chaddr=pkt[BOOTP].chaddr,xid = pkt[BOORP].xid)
+            D_R = DHCP(options=[(&quot;message-type&quot;,'request),(&quot;server_id&quot;,pkt[DHCP].options[1][1]),(&quot;requested_addr&quot;,pkt[BOOTP].yiaddr),&quot;end&quot;])
+             R=E_R/I_R/U_R/B_R/D_R
+             sendp(R,iface='eth0')
+             print(pkt[BOOTP].yiaddr+&quot;distributing&quot;)
+     if pkt[DHCP].options[0][1]==5:
+         print(pkt[BOOTP].yiaddr+&quot;distributed&quot;)
+ sniff(filter=&quot;src port 67&quot;,prn=d_d,count=3)
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[机器学习目录]]></title>
         <id>https://unmaned-air.github.io/post/ji-qi-xue-xi-mu-lu/</id>
         <link href="https://unmaned-air.github.io/post/ji-qi-xue-xi-mu-lu/">
@@ -260,6 +349,70 @@ void swap(int&amp; x, int&amp; y)
 ]]></summary>
         <content type="html"><![CDATA[<p>现在开始还来得及</p>
 <!-- more -->
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[基于kali虚拟机的网络渗透技术(一)scapy数据包基础]]></title>
+        <id>https://unmaned-air.github.io/post/ji-yu-kali-xu-ni-ji-de-wang-luo-shen-tou-ji-zhu/</id>
+        <link href="https://unmaned-air.github.io/post/ji-yu-kali-xu-ni-ji-de-wang-luo-shen-tou-ji-zhu/">
+        </link>
+        <updated>2022-04-24T05:14:37.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>虽然我大呼：“疫情滚出中国！！”<br>
+但事物都具有两面性。感谢2022年4月的疫情让我的怨种导师监督我学习网络渗透</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>虽然我大呼：“疫情滚出中国！！”<br>
+但事物都具有两面性。感谢2022年4月的疫情让我的怨种导师监督我学习网络渗透</p>
+</blockquote>
+<!-- more -->
+<h3 id="__利用-scapy-库-__">__利用 <em>scapy</em> 库 __</h3>
+<p>😀 利用 <em>pkt=Ether()/IP()/ICMP()</em> 构建一个数据包，往往，我们可以对数据包做出以下操作：</p>
+<h4 id="显示数据包中的内容">😯显示数据包中的内容:</h4>
+<p><em>pkt.raw()</em> 表示用字节格式显示内容<br>
+<em>hexdump()</em> 十六进制显示<br>
+<em>pkt.summary()</em> 用不超过一行的摘要描述数据包<br>
+<em>pkt.show()</em> 用表单显示数据<br>
+实现示例：</p>
+<pre><code class="language-Python">from scapy.all import *
+pkt=Ether()/IP()/ICMP()
+ print(&quot;pkt.raw()\n&quot;)
+print(raw(pkt))
+print(&quot;hexdump()\n&quot;)
+print(hexdump(pkt))
+print(&quot;pkt.summary()\n&quot;)
+print(pkt.summary())
+print(&quot;pkt.show()\n&quot;)
+pkt.show()
+</code></pre>
+<p><img src="https://unmaned-air.github.io/post-images/1650875445799.png" alt="" loading="lazy">&quot;</p>
+<h4 id="抓数据包"><strong>😠抓数据包</strong></h4>
+<p><em>wepcap(&quot;file.cap&quot;,pkt)</em> 后者指要保存的数据包，前者指保存去的文件名<br>
+<em>rec = rddpcap(&quot;file.cap&quot;)</em> 读取数据包<br>
+实现示例：</p>
+<pre><code class="language-python">  from scapy.all import *
+  pkt=IP()/ICMP()
+  print(&quot;get\n&quot;)
+  wrpcap(&quot;get.cap&quot;,pkt)
+  print(&quot;read\n&quot;)
+  rec=rdpcap(&quot;get.cap&quot;)
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://unmaned-air.github.io/post-images/1650896283998.png" alt="" loading="lazy"></figure>
+<h4 id="发送数据包"><strong>🤓发送数据包</strong></h4>
+<p><em>send()</em> 对IP地址发送数据包<br>
+<em>sendp()</em> 对硬件地址发送数据包（MAC）<br>
+实现示例：</p>
+<h4 id="发送和接受"><strong>😋发送和接受</strong></h4>
+<p>*sr()*用于IP地址<br>
+<em>srp()<em>用于MAC地址</em>（物理地址）</em><br>
+实现示例：</p>
+<h4 id="抓包函数"><strong>😏抓包函数：</strong></h4>
+<p><em>sniff(filter= ... ,iface=&quot;  ...&quot;,prn= ... ,count= ... )</em> 参数说明：<br>
+filter：过滤器，要监听的地址（ 要抓<mark>什么样的数据包</mark> ）<br>
+iface：用来指定要用的网卡（从哪作为<mark>去抓</mark>数据包的地方）<br>
+prn：指向一个函数，是要对数据包做的处理（做什么）<br>
+cout：指定要监听到的数据包的数量</p>
 ]]></content>
     </entry>
 </feed>
