@@ -1,0 +1,361 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>数字逻辑复习篇 | 沉舟侧畔</title>
+<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1654429548677">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unmaned-air.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="数字逻辑复习篇 | 沉舟侧畔 - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+从算术运算电路开始进行复习
+
+算术运算电路
+主要讲了各种加法器，利用加法器构建减法器、乘法器等等。
+无符号数的加法运算
+要完成加法，需要一位进位C i+1，一位本位si ，才能完成加法运算。
+用Verilog代码描述时，可以直接使用‘+’..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://unmaned-air.github.io">
+  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1654429548677" alt="">
+  </a>
+  <h1 class="site-title">
+    沉舟侧畔
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/hanhan/han" class="menu" target="_blank">
+          日记
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              数字逻辑复习篇
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-05-29
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>从算术运算电路开始进行复习</p>
+</blockquote>
+<h2 id="算术运算电路"><strong>算术运算电路</strong></h2>
+<p><em>主要讲了各种加法器，利用加法器构建减法器、乘法器等等。</em></p>
+<h3 id="无符号数的加法运算"><strong>无符号数的加法运算</strong></h3>
+<p>要完成加法，需要一位进位C i+1，一位本位si ，才能完成加法运算。<br>
+用Verilog代码描述时，可以直接使用‘+’，也可以按照电路相加。</p>
+<h4 id="半加器与全加器"><strong>半加器与全加器</strong></h4>
+<ul>
+<li>半加器<br>
+可以理解为是1位数相加，不考虑低位进位。<br>
+逻辑表达式：s=a^b<br>
+c=a&amp;b</li>
+<li>全加器</li>
+</ul>
+<h4 id="行波进位加法器"><strong>行波进位加法器</strong></h4>
+<h2 id="组合电路模块"><strong>组合电路模块</strong></h2>
+<h3 id="多路选择器">多路选择器</h3>
+<h4 id="2to1">2to1【</h4>
+<h4 id="4to1">4to1</h4>
+<h3 id="译码器">译码器</h3>
+<h4 id="2-4译码器">2-4译码器</h4>
+<h4 id="3-8译码器">3-8译码器</h4>
+<p>###编码器</p>
+<h4 id="优先级编码器">优先级编码器</h4>
+<h3 id="算术比较电路">算术比较电路</h3>
+<p>##触发器、寄存器和计数器</p>
+<h3 id="基本锁存器-门控sr锁存器-门控d锁存器">基本锁存器、门控SR锁存器、门控D锁存器</h3>
+<ul>
+<li>基本锁存器</li>
+<li>门控SR锁存器</li>
+<li>门控D锁存器</li>
+</ul>
+<h3 id="边沿出发的d触发器posedge-negedge">边沿出发的D触发器（<em>posedge</em> <em>negedge</em>）</h3>
+<p>边沿代码阻塞与非阻塞赋值</p>
+<h4 id="主从d触发器">主从D触发器</h4>
+<h4 id="有清零端和预置信号的d触发器">有清零端和预置信号的D触发器</h4>
+<h4 id="t触发器">T触发器</h4>
+<h4 id="jk触发器">JK触发器</h4>
+<h3 id="寄存器">寄存器</h3>
+<h4 id="移位寄存器">移位寄存器</h4>
+<h4 id="并行存取的移位寄存器">并行存取的移位寄存器</h4>
+<h3 id="计数器k进制">计数器（k进制）</h3>
+<h4 id="异步计数器">异步计数器</h4>
+<h4 id="同步计数器">同步计数器</h4>
+<h4 id="具有并行加载功能的计数器">具有并行加载功能的计数器</h4>
+<h4 id="其他类型的计数器">其他类型的计数器</h4>
+<ul>
+<li>
+<p>BCD计数器</p>
+</li>
+<li>
+<p>环形计数器</p>
+</li>
+<li>
+<p>Johnson计数器</p>
+</li>
+</ul>
+<h4 id="触发器电路的时序分析-时钟偏斜">触发器电路的时序分析 <em>时钟偏斜</em></h4>
+<h2 id="同步时序电路">同步时序电路</h2>
+<h3 id="设计步骤"><strong>设计步骤</strong></h3>
+<ul>
+<li>状态图</li>
+<li>状态表</li>
+<li>状态分配</li>
+<li>选择触发器得到次态和输出表达式</li>
+</ul>
+<h3 id="moore型状态机">Moore型状态机</h3>
+<h3 id="mealy型状态机">Mealy型状态机</h3>
+<h3 id="同步时序">同步时序</h3>
+<h3 id="串行加法器">串行加法器</h3>
+<h2 id="杂项复习各章落下来的部分">杂项复习（各章落下来的部分）</h2>
+<h3 id="最小化策略">最小化策略</h3>
+<ul>
+<li>字符<br>
+某个给定的乘积项中包含几个变量，每一个变量可能以原量的形式也可能以非量的形式出现。每出现一个变量，无论是原量还是非量，都称为 <strong>1个字符</strong> 。</li>
+<li>蕴涵项（隐含项）<br>
+输入变量的逻辑值组合满足给定函数值为1的乘积项称为函数的 <strong>蕴涵项</strong> 。<em>最基本的蕴涵项是最小项，包含n个字符的蕴涵项。</em></li>
+<li>质蕴涵项（素项）<br>
+如果一个蕴涵项不能组合到字符数比它少的其他蕴涵项中，则称之为质蕴涵项。另一种定义是，质蕴涵项中删去任意一个字符都不再是一个有效的蕴涵项。</li>
+<li>覆盖<br>
+包涵了给定函数等于1的所有逻辑值组合的蕴涵项的集合称为函数的一个覆盖。</li>
+<li>成本<br>
+逻辑电路的成本可以由总的逻辑门数量加上电路中所有逻辑门的输入数来表示。</li>
+</ul>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%94%B5%E8%B7%AF"><strong>算术运算电路</strong></a>
+<ul>
+<li><a href="#%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B0%E7%9A%84%E5%8A%A0%E6%B3%95%E8%BF%90%E7%AE%97"><strong>无符号数的加法运算</strong></a>
+<ul>
+<li><a href="#%E5%8D%8A%E5%8A%A0%E5%99%A8%E4%B8%8E%E5%85%A8%E5%8A%A0%E5%99%A8"><strong>半加器与全加器</strong></a></li>
+<li><a href="#%E8%A1%8C%E6%B3%A2%E8%BF%9B%E4%BD%8D%E5%8A%A0%E6%B3%95%E5%99%A8"><strong>行波进位加法器</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%BB%84%E5%90%88%E7%94%B5%E8%B7%AF%E6%A8%A1%E5%9D%97"><strong>组合电路模块</strong></a>
+<ul>
+<li><a href="#%E5%A4%9A%E8%B7%AF%E9%80%89%E6%8B%A9%E5%99%A8">多路选择器</a>
+<ul>
+<li><a href="#2to1">2to1【</a></li>
+<li><a href="#4to1">4to1</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AF%91%E7%A0%81%E5%99%A8">译码器</a>
+<ul>
+<li><a href="#2-4%E8%AF%91%E7%A0%81%E5%99%A8">2-4译码器</a></li>
+<li><a href="#3-8%E8%AF%91%E7%A0%81%E5%99%A8">3-8译码器</a></li>
+<li><a href="#%E4%BC%98%E5%85%88%E7%BA%A7%E7%BC%96%E7%A0%81%E5%99%A8">优先级编码器</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AE%97%E6%9C%AF%E6%AF%94%E8%BE%83%E7%94%B5%E8%B7%AF">算术比较电路</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E9%94%81%E5%AD%98%E5%99%A8-%E9%97%A8%E6%8E%A7sr%E9%94%81%E5%AD%98%E5%99%A8-%E9%97%A8%E6%8E%A7d%E9%94%81%E5%AD%98%E5%99%A8">基本锁存器、门控SR锁存器、门控D锁存器</a></li>
+<li><a href="#%E8%BE%B9%E6%B2%BF%E5%87%BA%E5%8F%91%E7%9A%84d%E8%A7%A6%E5%8F%91%E5%99%A8posedge-negedge">边沿出发的D触发器（<em>posedge</em> <em>negedge</em>）</a>
+<ul>
+<li><a href="#%E4%B8%BB%E4%BB%8Ed%E8%A7%A6%E5%8F%91%E5%99%A8">主从D触发器</a></li>
+<li><a href="#%E6%9C%89%E6%B8%85%E9%9B%B6%E7%AB%AF%E5%92%8C%E9%A2%84%E7%BD%AE%E4%BF%A1%E5%8F%B7%E7%9A%84d%E8%A7%A6%E5%8F%91%E5%99%A8">有清零端和预置信号的D触发器</a></li>
+<li><a href="#t%E8%A7%A6%E5%8F%91%E5%99%A8">T触发器</a></li>
+<li><a href="#jk%E8%A7%A6%E5%8F%91%E5%99%A8">JK触发器</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AF%84%E5%AD%98%E5%99%A8">寄存器</a>
+<ul>
+<li><a href="#%E7%A7%BB%E4%BD%8D%E5%AF%84%E5%AD%98%E5%99%A8">移位寄存器</a></li>
+<li><a href="#%E5%B9%B6%E8%A1%8C%E5%AD%98%E5%8F%96%E7%9A%84%E7%A7%BB%E4%BD%8D%E5%AF%84%E5%AD%98%E5%99%A8">并行存取的移位寄存器</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AE%A1%E6%95%B0%E5%99%A8k%E8%BF%9B%E5%88%B6">计数器（k进制）</a>
+<ul>
+<li><a href="#%E5%BC%82%E6%AD%A5%E8%AE%A1%E6%95%B0%E5%99%A8">异步计数器</a></li>
+<li><a href="#%E5%90%8C%E6%AD%A5%E8%AE%A1%E6%95%B0%E5%99%A8">同步计数器</a></li>
+<li><a href="#%E5%85%B7%E6%9C%89%E5%B9%B6%E8%A1%8C%E5%8A%A0%E8%BD%BD%E5%8A%9F%E8%83%BD%E7%9A%84%E8%AE%A1%E6%95%B0%E5%99%A8">具有并行加载功能的计数器</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%AE%A1%E6%95%B0%E5%99%A8">其他类型的计数器</a></li>
+<li><a href="#%E8%A7%A6%E5%8F%91%E5%99%A8%E7%94%B5%E8%B7%AF%E7%9A%84%E6%97%B6%E5%BA%8F%E5%88%86%E6%9E%90-%E6%97%B6%E9%92%9F%E5%81%8F%E6%96%9C">触发器电路的时序分析 <em>时钟偏斜</em></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F%E7%94%B5%E8%B7%AF">同步时序电路</a>
+<ul>
+<li><a href="#%E8%AE%BE%E8%AE%A1%E6%AD%A5%E9%AA%A4"><strong>设计步骤</strong></a></li>
+<li><a href="#moore%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA">Moore型状态机</a></li>
+<li><a href="#mealy%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA">Mealy型状态机</a></li>
+<li><a href="#%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F">同步时序</a></li>
+<li><a href="#%E4%B8%B2%E8%A1%8C%E5%8A%A0%E6%B3%95%E5%99%A8">串行加法器</a></li>
+</ul>
+</li>
+<li><a href="#%E6%9D%82%E9%A1%B9%E5%A4%8D%E4%B9%A0%E5%90%84%E7%AB%A0%E8%90%BD%E4%B8%8B%E6%9D%A5%E7%9A%84%E9%83%A8%E5%88%86">杂项复习（各章落下来的部分）</a>
+<ul>
+<li><a href="#%E6%9C%80%E5%B0%8F%E5%8C%96%E7%AD%96%E7%95%A5">最小化策略</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://unmaned-air.github.io/post/qi-mo-qian-xi-de-c/">
+              <h3 class="post-title">
+                期末前夕的C++
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '',
+    clientSecret: '',
+    repo: '',
+    owner: '',
+    admin: [''],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://unmaned-air.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
