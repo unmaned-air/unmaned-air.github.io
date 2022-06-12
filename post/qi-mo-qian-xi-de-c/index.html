@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>期末前夕的C++ | 沉舟侧畔</title>
-<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1654484355035">
+<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1655026768460">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unmaned-air.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="期末前夕的C++ | 沉舟侧畔 - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
@@ -12,15 +12,12 @@
 
 
     <meta name="description" content="
-以下是我在复习的过程中发现的华点
+以下是我在复习的过程中发现的华点（就是我不明白并大为震惊的知识点）
 
 一些容易被搞到的知识点
 
 编写C++程序一般需要经过的几个步骤依次是：编辑、编译、连接、运行
-赋值兼容性规则是指派生类对象可以当作基类对象使用，只要存在继承关系，所以单继承或多继承都适用。
-
-
-空指针和..." />
+赋值兼容性规则是指派生类对象可以当作基类对象使用，只要存在继承关系，所以单..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -30,7 +27,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://unmaned-air.github.io">
-  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1654484355035" alt="">
+  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1655026768460" alt="">
   </a>
   <h1 class="site-title">
     沉舟侧畔
@@ -96,7 +93,7 @@
                 2022-05-27
               </span>
               <span>
-                6 min read
+                10 min read
               </span>
               
             </div>
@@ -106,7 +103,7 @@
             <div class="post-content-wrapper">
               <div class="post-content">
                 <blockquote>
-<p>以下是我在复习的过程中发现的华点</p>
+<p>以下是我在复习的过程中发现的华点（就是我不明白并大为震惊的知识点）</p>
 </blockquote>
 <h3 id="一些容易被搞到的知识点">一些容易被搞到的知识点</h3>
 <ul>
@@ -313,6 +310,166 @@ void swap(int&amp; x, int&amp; y)
    return;
 }
 </code></pre>
+<h3 id="函数提高">函数提高</h3>
+<h4 id="函数默认参数">函数默认参数</h4>
+<p>在C++中，函数的形参列表中的形参是可以又默认值的。<br>
+注意事项：</p>
+<ol>
+<li>所有的有默认参数的形式参数都必须置于最后；</li>
+<li>如果函数声明有默认值，函数实现的时候就不能有默认参数。解释如下：</li>
+</ol>
+<blockquote>
+<p>由于在实际写代码过程中，可能会与到函数的定义和声明不在同一文件，声明出现在头文件中的情况。这时，对带默认值的函数在声明和定义时，需要注意，默认值出现在声明的代码中，定义中不能再对参数赋与默认值，否则会报错。</p>
+</blockquote>
+<h4 id="lanbda-函数">Lanbda 函数</h4>
+<p>匿名函数，把函数看作对象。</p>
+<blockquote>
+<p>Lambda函数很简洁，但变化较多。</p>
+</blockquote>
+<p>1、什么也不捕获，或者是故意不用 Lambda 函数外部的变量</p>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+    int i = 1024;
+    auto func = [] { cout &lt;&lt; i; };
+    func();
+}  // 结果报错，因为未指定默认捕获模式
+正确的如下：
+
+#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+    int i = 1024;
+    auto func = [=]{  // [=] 表明将外部的所有变量拷贝一份到该Lambda函数内部
+        cout &lt;&lt; i;
+    };
+    func();
+}
+</code></pre>
+<p>2、引用捕获</p>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+    int i = 1024;
+    cout &lt;&lt; &amp;i &lt;&lt; endl;
+    auto fun1 = [&amp;]{
+        cout &lt;&lt; &amp;i &lt;&lt; endl;
+    };
+    fun1();
+}
+</code></pre>
+<p>3、复制并引用捕获</p>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+    int i = 1024, j = 2048;
+ 
+    cout &lt;&lt; &quot;i:&quot; &lt;&lt; &amp;i &lt;&lt; endl;
+    cout &lt;&lt; &quot;j:&quot; &lt;&lt; &amp;j &lt;&lt; endl;
+ 
+    auto fun1 = [=, &amp;i]{ // 默认拷贝外部所有变量，但引用变量 i
+        cout &lt;&lt; &quot;i:&quot; &lt;&lt; &amp;i &lt;&lt; endl;
+        cout &lt;&lt; &quot;j:&quot; &lt;&lt; &amp;j &lt;&lt; endl;
+    };
+    fun1();
+}
+</code></pre>
+<p>4、指定引用或复制</p>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+    int i = 1024, j = 2048;
+ 
+    cout &lt;&lt; &quot;outside i value:&quot; &lt;&lt; i &lt;&lt; &quot; addr:&quot; &lt;&lt; &amp;i &lt;&lt; endl;
+ 
+    auto fun1 = [i]{
+        cout &lt;&lt; &quot;inside  i value:&quot; &lt;&lt; i &lt;&lt; &quot; addr:&quot; &lt;&lt; &amp;i &lt;&lt; endl;
+        // cout &lt;&lt; j &lt;&lt; endl; // j 未捕获
+    };
+    fun1();
+}
+</code></pre>
+<p>5、捕获this指针</p>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+class test
+{
+public:
+    void hello() {
+        cout &lt;&lt; &quot;test hello!n&quot;;
+    };
+    void lambda() {
+        auto fun = [this]{ // 捕获了 this 指针
+            this-&gt;hello(); // 这里 this 调用的就是 class test 的对象了
+        };
+        fun();
+    }
+};
+ 
+int main()
+{
+    test t;
+    t.lambda();
+}
+</code></pre>
+<h4 id="函数占位参数">函数占位参数</h4>
+<p>用单一的数据类型占位形参，调用函数时必须填补该位置。</p>
+<pre><code class="language-C++">void func(int a,int){
+      cout&lt;&lt;&quot;working...&quot;&lt;&lt;endl;
+      }
+int main(){
+      func(10,10);
+      return 0;
+      }
+</code></pre>
+<h4 id="函数重载的注意事项">函数重载的注意事项</h4>
+<ol>
+<li>返回值不能作为重载的条件</li>
+</ol>
+<h3 id="类和对象">类和对象</h3>
+<ul>
+<li>struct和class的唯一区别就在于<mark>默认的访问权限不同</mark> ，struct的默认访问权限是公共，class默认权限为私有。</li>
+</ul>
+<h4 id="构造与析构中的细节">构造与析构中的细节</h4>
+<p>构造函数语法：类名(){}</p>
+<ul>
+<li>语法</li>
+</ul>
+<ol>
+<li>构造函数，<mark>没有返回值</mark>也不写void</li>
+<li>函数名称与类名相同</li>
+<li>构造函数可以有参数，因此<mark>可以发生重载</mark></li>
+<li>程序在调用对象时候会自动调用构造，无须手动调用,而且<mark>只会调用一次</mark></li>
+</ol>
+<ul>
+<li>分类及调用</li>
+</ul>
+<ol>
+<li>两种分类方式：
+<ol>
+<li>按参数分为:有参构造和无参构造</li>
+<li>按类型分为普通构造和拷贝构造</li>
+</ol>
+</li>
+<li>三种调用方式：
+<ol>
+<li>括号法</li>
+<li>显示法</li>
+<li>隐式转换法</li>
+</ol>
+</li>
+</ol>
 
               </div>
               <div class="toc-container">
@@ -332,6 +489,19 @@ void swap(int&amp; x, int&amp; y)
 <li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">注意事项</a></li>
 <li><a href="#%E5%BC%95%E7%94%A8%E5%92%8C%E6%8C%87%E9%92%88%E7%9A%84%E4%B8%8D%E5%90%8C%E4%B9%8B%E5%A4%84">引用和指针的不同之处</a></li>
 <li><a href="#%E6%8A%8A%E5%BC%95%E7%94%A8%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E5%80%BC%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC">把引用作为参数值与返回值</a></li>
+</ul>
+</li>
+<li><a href="#%E5%87%BD%E6%95%B0%E6%8F%90%E9%AB%98">函数提高</a>
+<ul>
+<li><a href="#%E5%87%BD%E6%95%B0%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0">函数默认参数</a></li>
+<li><a href="#lanbda-%E5%87%BD%E6%95%B0">Lanbda 函数</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0%E5%8D%A0%E4%BD%8D%E5%8F%82%E6%95%B0">函数占位参数</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">函数重载的注意事项</a></li>
+</ul>
+</li>
+<li><a href="#%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1">类和对象</a>
+<ul>
+<li><a href="#%E6%9E%84%E9%80%A0%E4%B8%8E%E6%9E%90%E6%9E%84%E4%B8%AD%E7%9A%84%E7%BB%86%E8%8A%82">构造与析构中的细节</a></li>
 </ul>
 </li>
 </ul>

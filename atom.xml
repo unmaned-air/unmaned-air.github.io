@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unmaned-air.github.io</id>
     <title>沉舟侧畔</title>
-    <updated>2022-06-06T03:01:59.218Z</updated>
+    <updated>2022-06-12T09:39:32.434Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unmaned-air.github.io"/>
     <link rel="self" href="https://unmaned-air.github.io/atom.xml"/>
@@ -34,11 +34,46 @@ c=a&amp;b</li>
 需要考虑低位的进位（不再是单纯的c，而是ci）。<br>
 <em>S<sub>i+1</sub>=a<sub>i+1</sub> ^ b<sub>i+1</sub> ^ C<sub>i</sub></em><br>
 <em>C<sub>i+1</sub>=a<sub>i</sub>&amp;b<sub>i</sub>+a<sub>i</sub>&amp;C<sub>i</sub>+b<sub>i</sub>&amp;C<sub>i</sub></em><br>
+<strong>Verilog代码演示</strong> ：<pre><code class="language-verilog">module fulladd(Cin,x,y,s,Cout);
+  input Cin,x,y;
+  output s,Cout;
+  xor(s,x,y,Cin);
+  and(z1,x,y),
+        (z2,x,Cin),
+        (z3,y,Cin);//Verilog可以通过换行达到代码的简介，用逗号隔开各个接口块
+                       //原来也可以不用声明网络wire型变量，因为Verilog默认所有的
+                       //信号为网络数据
+  or(Cout,z1,z2,z3);
+  endmodule
+
+</code></pre>
 <img src="https://unmaned-air.github.io/post-images/1654429625114.png" alt="" loading="lazy"></li>
 </ul>
 <h4 id="行波进位加法器"><strong>行波进位加法器</strong></h4>
 <p>第i位产生的进位加入到第i+1的运算中，对于每一位，我们可以使用一个全加器。这样会使得最后一位结果必须将前面所有位都算出之后才能得到，延时很高。<br>
-<img src="https://unmaned-air.github.io/post-images/1654430583000.png" alt="" loading="lazy"></p>
+<img src="https://unmaned-air.github.io/post-images/1654430583000.png" alt="" loading="lazy"><br>
+<strong>Verilog代码演示</strong> ：</p>
+<pre><code class="language-Verilog">    module addern(carrin,X,Y,S,carryout);
+    parameter n=32;
+    input carryin;
+    input[n-1:0]X,Y;
+    output reg [n-1:0]S;
+    output reg carryout;
+    reg [n:0] C;
+    integer k;
+    always @(X,Y,carryin)
+    begin
+    	C[0]=carryin;
+    	for(k=0;k&lt;n;k=k+1)
+    	begin
+    		S[k]=X[k]^Y[k]^C[k];
+    		C[k+1]=(X[k]&amp;Y[k])|(X[k]&amp;C[k])|(Y[k]&amp;C[k]);//直观的最小项之和表达式
+    	end
+    	carryout=C[n];
+    end
+    
+endmodule
+</code></pre>
 <h4 id="快速加法器超前先行进位加法器">快速加法器（<em>超前（先行）进位加法器</em>）</h4>
 <p><em>由行波进位加法器加法器可发现，最主要的延时由进位c<sub>i</sub>产生，快速加法器相较于行波进位加法器主要是对c<sub>i</sub>位进行操作。于是将逻辑式复合化简得出快速加法器的原理式，缺点是当运算加数位数较多时，电路会有些复杂。</em><br>
 第i级的进位函数可以表示为:</p>
@@ -58,14 +93,33 @@ c=a&amp;b</li>
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7777700000000001em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.791661em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mord">+</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">+</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.6527810000000001em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
 <p><img src="https://unmaned-air.github.io/post-images/1654436688310.png" alt="" loading="lazy"><br>
 <em>可以看见如图，超前进位加法器需要前面每一位g<sub>i</sub>、p<sub>i</sub>的结果输入到c位中，可以加快速度，但会使得线网的复杂度大大升高。</em></p>
+<h4 id="比较器">比较器</h4>
+<ul>
+<li>利用全加器实现的比较器（全加器模块见上方）</li>
+</ul>
+<pre><code class="language-Verilog">
+</code></pre>
+<ul>
+<li>通用Verilog代码</li>
+</ul>
 <h2 id="组合电路模块"><strong>组合电路模块</strong></h2>
+<pre><code>这一章主要学了一些在电路中常出现使用的模块
+</code></pre>
 <h3 id="多路选择器">多路选择器</h3>
+<p>根据输入&lt; s &gt;的不同来选择输出哪一位输出（多选一）。<br>
+以下是基本选择器，利用这些基本选择器可以构成更复杂的选择器</p>
 <h4 id="2to1">2to1</h4>
+<figure data-type="image" tabindex="2"><img src="https://unmaned-air.github.io/post-images/1655002103868.png" alt="" loading="lazy"></figure>
 <h4 id="4to1">4to1</h4>
+<figure data-type="image" tabindex="3"><img src="https://unmaned-air.github.io/post-images/1655002111029.png" alt="" loading="lazy"></figure>
 <h3 id="译码器">译码器</h3>
-<h4 id="2-4译码器">2-4译码器</h4>
-<h4 id="3-8译码器">3-8译码器</h4>
-<p>###编码器</p>
+<p>与选择器不同，译码器是根据输入，决定输出，多位输出（一般是独热码输出）。</p>
+<h4 id="2-4译码器最基本的译码器">2-4译码器（最基本的译码器）</h4>
+<p>输入：一项使能端E<sub>n</sub>,w<sub>1</sub> w<sub>2</sub> 输入控制输出。<br>
+<img src="https://unmaned-air.github.io/post-images/1655002856097.png" alt="" loading="lazy"><br>
+基于2-4译码器，可以实现3-8、4-16译码器，多路选择器等<br>
+###编码器<br>
+编码器将给定的信息编码为一种更紧凑的形式。</p>
 <h4 id="优先级编码器">优先级编码器</h4>
 <h3 id="算术比较电路">算术比较电路</h3>
 <p>##触发器、寄存器和计数器</p>
@@ -149,9 +203,18 @@ c=a&amp;b</li>
 <p>减法运算可以通过加法运算实现，即使用减数的2的补码方式，而不用考虑操作数的符号。用相同的加法器电路实现加法和减法运算。</p>
 </blockquote>
 <ul>
-<li><strong>算术溢出</strong><br>
+<li>
+<p><strong>算术溢出</strong><br>
 假设加法和减法的运算结果与表示该数字的有效位数匹配，如果用n位表示有符号数，则运算结果必须在 -2<sup>n-1</sup> ~ 2<sup>n-1</sup>-1 的范围内；如果结果不在该范围内，就称出现算术溢出。<br>
-Overflow=C<sub>n-1</sub> ^ C<sub>n</sub></li>
+Overflow=C<sub>n-1</sub> ^ C<sub>n</sub></p>
+</li>
+<li>
+<p>BCD码=源码+6</p>
+</li>
+<li>
+<p>香农展开<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>=</mo><msub><mi>w</mi><mn>1</mn></msub><mi>f</mi><mo>(</mo><mn>1</mn><mo separator="true">,</mo><msub><mi>w</mi><mn>2</mn></msub><mo separator="true">,</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mi mathvariant="normal">，</mi><msub><mi>w</mi><mi>n</mi></msub><mo>)</mo><mo>+</mo><mover accent="true"><msub><mi>w</mi><mn>1</mn></msub><mo stretchy="true">‾</mo></mover><mi>f</mi><mo>(</mo><mn>0</mn><mo separator="true">,</mo><msub><mi>w</mi><mn>2</mn></msub><mo separator="true">,</mo><msub><mi>w</mi><mn>3</mn></msub><mo separator="true">,</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mo separator="true">,</mo><msub><mi>w</mi><mi>n</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">f=w_1f(1,w_2,···，w_n)+\overline{w_1}f(0,w_2,w_3,···,w_n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">，</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord overline"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.63056em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.55056em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+</li>
 </ul>
 ]]></content>
     </entry>
@@ -162,7 +225,7 @@ Overflow=C<sub>n-1</sub> ^ C<sub>n</sub></li>
         </link>
         <updated>2022-05-27T03:17:39.000Z</updated>
         <content type="html"><![CDATA[<blockquote>
-<p>以下是我在复习的过程中发现的华点</p>
+<p>以下是我在复习的过程中发现的华点（就是我不明白并大为震惊的知识点）</p>
 </blockquote>
 <h3 id="一些容易被搞到的知识点">一些容易被搞到的知识点</h3>
 <ul>
@@ -369,6 +432,166 @@ void swap(int&amp; x, int&amp; y)
    return;
 }
 </code></pre>
+<h3 id="函数提高">函数提高</h3>
+<h4 id="函数默认参数">函数默认参数</h4>
+<p>在C++中，函数的形参列表中的形参是可以又默认值的。<br>
+注意事项：</p>
+<ol>
+<li>所有的有默认参数的形式参数都必须置于最后；</li>
+<li>如果函数声明有默认值，函数实现的时候就不能有默认参数。解释如下：</li>
+</ol>
+<blockquote>
+<p>由于在实际写代码过程中，可能会与到函数的定义和声明不在同一文件，声明出现在头文件中的情况。这时，对带默认值的函数在声明和定义时，需要注意，默认值出现在声明的代码中，定义中不能再对参数赋与默认值，否则会报错。</p>
+</blockquote>
+<h4 id="lanbda-函数">Lanbda 函数</h4>
+<p>匿名函数，把函数看作对象。</p>
+<blockquote>
+<p>Lambda函数很简洁，但变化较多。</p>
+</blockquote>
+<p>1、什么也不捕获，或者是故意不用 Lambda 函数外部的变量</p>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+    int i = 1024;
+    auto func = [] { cout &lt;&lt; i; };
+    func();
+}  // 结果报错，因为未指定默认捕获模式
+正确的如下：
+
+#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+    int i = 1024;
+    auto func = [=]{  // [=] 表明将外部的所有变量拷贝一份到该Lambda函数内部
+        cout &lt;&lt; i;
+    };
+    func();
+}
+</code></pre>
+<p>2、引用捕获</p>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+    int i = 1024;
+    cout &lt;&lt; &amp;i &lt;&lt; endl;
+    auto fun1 = [&amp;]{
+        cout &lt;&lt; &amp;i &lt;&lt; endl;
+    };
+    fun1();
+}
+</code></pre>
+<p>3、复制并引用捕获</p>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+    int i = 1024, j = 2048;
+ 
+    cout &lt;&lt; &quot;i:&quot; &lt;&lt; &amp;i &lt;&lt; endl;
+    cout &lt;&lt; &quot;j:&quot; &lt;&lt; &amp;j &lt;&lt; endl;
+ 
+    auto fun1 = [=, &amp;i]{ // 默认拷贝外部所有变量，但引用变量 i
+        cout &lt;&lt; &quot;i:&quot; &lt;&lt; &amp;i &lt;&lt; endl;
+        cout &lt;&lt; &quot;j:&quot; &lt;&lt; &amp;j &lt;&lt; endl;
+    };
+    fun1();
+}
+</code></pre>
+<p>4、指定引用或复制</p>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+int main()
+{
+    int i = 1024, j = 2048;
+ 
+    cout &lt;&lt; &quot;outside i value:&quot; &lt;&lt; i &lt;&lt; &quot; addr:&quot; &lt;&lt; &amp;i &lt;&lt; endl;
+ 
+    auto fun1 = [i]{
+        cout &lt;&lt; &quot;inside  i value:&quot; &lt;&lt; i &lt;&lt; &quot; addr:&quot; &lt;&lt; &amp;i &lt;&lt; endl;
+        // cout &lt;&lt; j &lt;&lt; endl; // j 未捕获
+    };
+    fun1();
+}
+</code></pre>
+<p>5、捕获this指针</p>
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+class test
+{
+public:
+    void hello() {
+        cout &lt;&lt; &quot;test hello!n&quot;;
+    };
+    void lambda() {
+        auto fun = [this]{ // 捕获了 this 指针
+            this-&gt;hello(); // 这里 this 调用的就是 class test 的对象了
+        };
+        fun();
+    }
+};
+ 
+int main()
+{
+    test t;
+    t.lambda();
+}
+</code></pre>
+<h4 id="函数占位参数">函数占位参数</h4>
+<p>用单一的数据类型占位形参，调用函数时必须填补该位置。</p>
+<pre><code class="language-C++">void func(int a,int){
+      cout&lt;&lt;&quot;working...&quot;&lt;&lt;endl;
+      }
+int main(){
+      func(10,10);
+      return 0;
+      }
+</code></pre>
+<h4 id="函数重载的注意事项">函数重载的注意事项</h4>
+<ol>
+<li>返回值不能作为重载的条件</li>
+</ol>
+<h3 id="类和对象">类和对象</h3>
+<ul>
+<li>struct和class的唯一区别就在于<mark>默认的访问权限不同</mark> ，struct的默认访问权限是公共，class默认权限为私有。</li>
+</ul>
+<h4 id="构造与析构中的细节">构造与析构中的细节</h4>
+<p>构造函数语法：类名(){}</p>
+<ul>
+<li>语法</li>
+</ul>
+<ol>
+<li>构造函数，<mark>没有返回值</mark>也不写void</li>
+<li>函数名称与类名相同</li>
+<li>构造函数可以有参数，因此<mark>可以发生重载</mark></li>
+<li>程序在调用对象时候会自动调用构造，无须手动调用,而且<mark>只会调用一次</mark></li>
+</ol>
+<ul>
+<li>分类及调用</li>
+</ul>
+<ol>
+<li>两种分类方式：
+<ol>
+<li>按参数分为:有参构造和无参构造</li>
+<li>按类型分为普通构造和拷贝构造</li>
+</ol>
+</li>
+<li>三种调用方式：
+<ol>
+<li>括号法</li>
+<li>显示法</li>
+<li>隐式转换法</li>
+</ol>
+</li>
+</ol>
 ]]></content>
     </entry>
     <entry>
