@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unmaned-air.github.io</id>
     <title>沉舟侧畔</title>
-    <updated>2022-06-17T17:14:51.574Z</updated>
+    <updated>2022-06-17T17:19:08.498Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unmaned-air.github.io"/>
     <link rel="self" href="https://unmaned-air.github.io/atom.xml"/>
@@ -71,8 +71,7 @@ c=a&amp;b</li>
     	end
     	carryout=C[n];
     end
-    
-endmodule
+    endmodule
 </code></pre>
 <h4 id="快速加法器超前先行进位加法器">快速加法器（<em>超前（先行）进位加法器</em>）</h4>
 <p><em>由行波进位加法器加法器可发现，最主要的延时由进位c<sub>i</sub>产生，快速加法器相较于行波进位加法器主要是对c<sub>i</sub>位进行操作。于是将逻辑式复合化简得出快速加法器的原理式，缺点是当运算加数位数较多时，电路会有些复杂。</em><br>
@@ -213,7 +212,7 @@ endmodule
 Overflow=C<sub>n-1</sub> ^ C<sub>n</sub></p>
 </li>
 <li>
-<p>BCD码=源码+6</p>
+<p>BCD码=原码+6</p>
 </li>
 <li>
 <p>香农展开<br>
