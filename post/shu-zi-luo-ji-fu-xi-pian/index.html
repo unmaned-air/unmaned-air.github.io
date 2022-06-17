@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>数字逻辑复习篇 | 沉舟侧畔</title>
-<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1655026837167">
+<link rel="shortcut icon" href="https://unmaned-air.github.io/favicon.ico?v=1655486089262">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unmaned-air.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="数字逻辑复习篇 | 沉舟侧畔 - Atom Feed" href="https://unmaned-air.github.io/atom.xml">
@@ -28,7 +28,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://unmaned-air.github.io">
-  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1655026837167" alt="">
+  <img class="avatar" src="https://unmaned-air.github.io/images/avatar.png?v=1655486089262" alt="">
   </a>
   <h1 class="site-title">
     沉舟侧畔
@@ -94,7 +94,7 @@
                 2022-05-29
               </span>
               <span>
-                8 min read
+                9 min read
               </span>
               
             </div>
@@ -119,7 +119,7 @@ c=a&amp;b</li>
 需要考虑低位的进位（不再是单纯的c，而是ci）。<br>
 <em>S<sub>i+1</sub>=a<sub>i+1</sub> ^ b<sub>i+1</sub> ^ C<sub>i</sub></em><br>
 <em>C<sub>i+1</sub>=a<sub>i</sub>&amp;b<sub>i</sub>+a<sub>i</sub>&amp;C<sub>i</sub>+b<sub>i</sub>&amp;C<sub>i</sub></em><br>
-<strong>Verilog代码演示</strong> ：<pre><code class="language-verilog">module fulladd(Cin,x,y,s,Cout);
+<strong>Verilog代码演示</strong> ：<pre><code class="language-Verilog">  module fulladd(Cin,x,y,s,Cout);
   input Cin,x,y;
   output s,Cout;
   xor(s,x,y,Cin);
@@ -204,9 +204,13 @@ endmodule
 <img src="https://unmaned-air.github.io/post-images/1655002856097.png" alt="" loading="lazy"><br>
 基于2-4译码器，可以实现3-8、4-16译码器，多路选择器等<br>
 ###编码器<br>
-编码器将给定的信息编码为一种更紧凑的形式。</p>
+编码器将给定的信息编码为一种更紧凑的形式。（将独热码变成正常的码）<s>忘记是什么码了</s><br>
+<img src="https://unmaned-air.github.io/post-images/1655474769727.png" alt="" loading="lazy"></p>
 <h4 id="优先级编码器">优先级编码器</h4>
-<h3 id="算术比较电路">算术比较电路</h3>
+<p>顾名思义，对于一个四位优先级编码器输入<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mn>1</mn></msub><msub><mi>w</mi><mn>2</mn></msub><msub><mi>w</mi><mn>3</mn></msub><msub><mi>w</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">w_1w_2w_3w_4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ，如果 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">w_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 是1，那么无论后面的作何输入，都按照第一位是1的处理。而对于普通编码器来说，多个输入被置为1的所有输入模式都没有在真值表中出现，被认为无关项。（有点绕，但大概就是1111对两个编码器来说，普通编码器会没有输出，或者说有输出四种编码的可能，而对优先级编码器来说是敏感信号有且仅输出11）.</p>
+<h3 id="算术比较电路无符号数比较">算术比较电路（无符号数比较）</h3>
+<p>逐位进行比较列出真值表。代码相对好写，但对于函数式的列出需要真值表辅助<br>
+还有一种比较器（有符号）的方法是实现X-Y（取反码进行加法）并且根据结果值的信号进行操作（遇事不决，列真值表）<mark>见第3章例3.9</mark> .</p>
 <p>##触发器、寄存器和计数器</p>
 <h3 id="基本锁存器-门控sr锁存器-门控d锁存器">基本锁存器、门控SR锁存器、门控D锁存器</h3>
 <ul>
@@ -218,7 +222,7 @@ endmodule
 <p>边沿代码阻塞与非阻塞赋值</p>
 <h4 id="主从d触发器">主从D触发器</h4>
 <h4 id="有清零端和预置信号的d触发器">有清零端和预置信号的D触发器</h4>
-<h4 id="t触发器">T触发器</h4>
+<h4 id="t触发器相当于一种特殊的jk触发器">T触发器（相当于一种特殊的jk触发器）</h4>
 <h4 id="jk触发器">JK触发器</h4>
 <h3 id="寄存器">寄存器</h3>
 <h4 id="移位寄存器">移位寄存器</h4>
@@ -333,13 +337,13 @@ Overflow=C<sub>n-1</sub> ^ C<sub>n</sub></p>
 <li><a href="#%E4%BC%98%E5%85%88%E7%BA%A7%E7%BC%96%E7%A0%81%E5%99%A8">优先级编码器</a></li>
 </ul>
 </li>
-<li><a href="#%E7%AE%97%E6%9C%AF%E6%AF%94%E8%BE%83%E7%94%B5%E8%B7%AF">算术比较电路</a></li>
+<li><a href="#%E7%AE%97%E6%9C%AF%E6%AF%94%E8%BE%83%E7%94%B5%E8%B7%AF%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B0%E6%AF%94%E8%BE%83">算术比较电路（无符号数比较）</a></li>
 <li><a href="#%E5%9F%BA%E6%9C%AC%E9%94%81%E5%AD%98%E5%99%A8-%E9%97%A8%E6%8E%A7sr%E9%94%81%E5%AD%98%E5%99%A8-%E9%97%A8%E6%8E%A7d%E9%94%81%E5%AD%98%E5%99%A8">基本锁存器、门控SR锁存器、门控D锁存器</a></li>
 <li><a href="#%E8%BE%B9%E6%B2%BF%E5%87%BA%E5%8F%91%E7%9A%84d%E8%A7%A6%E5%8F%91%E5%99%A8posedge-negedge">边沿出发的D触发器（<em>posedge</em> <em>negedge</em>）</a>
 <ul>
 <li><a href="#%E4%B8%BB%E4%BB%8Ed%E8%A7%A6%E5%8F%91%E5%99%A8">主从D触发器</a></li>
 <li><a href="#%E6%9C%89%E6%B8%85%E9%9B%B6%E7%AB%AF%E5%92%8C%E9%A2%84%E7%BD%AE%E4%BF%A1%E5%8F%B7%E7%9A%84d%E8%A7%A6%E5%8F%91%E5%99%A8">有清零端和预置信号的D触发器</a></li>
-<li><a href="#t%E8%A7%A6%E5%8F%91%E5%99%A8">T触发器</a></li>
+<li><a href="#t%E8%A7%A6%E5%8F%91%E5%99%A8%E7%9B%B8%E5%BD%93%E4%BA%8E%E4%B8%80%E7%A7%8D%E7%89%B9%E6%AE%8A%E7%9A%84jk%E8%A7%A6%E5%8F%91%E5%99%A8">T触发器（相当于一种特殊的jk触发器）</a></li>
 <li><a href="#jk%E8%A7%A6%E5%8F%91%E5%99%A8">JK触发器</a></li>
 </ul>
 </li>
