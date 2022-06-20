@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unmaned-air.github.io</id>
     <title>沉舟侧畔</title>
-    <updated>2022-06-17T17:19:08.498Z</updated>
+    <updated>2022-06-20T03:10:08.468Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unmaned-air.github.io"/>
     <link rel="self" href="https://unmaned-air.github.io/atom.xml"/>
@@ -30,30 +30,30 @@
 可以理解为是1位数相加，不考虑低位进位。<br>
 逻辑表达式：s=a^b<br>
 c=a&amp;b</li>
-<li>全加器<br>
+<li><a id="add">全加器</a><br>
 需要考虑低位的进位（不再是单纯的c，而是ci）。<br>
 <em>S<sub>i+1</sub>=a<sub>i+1</sub> ^ b<sub>i+1</sub> ^ C<sub>i</sub></em><br>
 <em>C<sub>i+1</sub>=a<sub>i</sub>&amp;b<sub>i</sub>+a<sub>i</sub>&amp;C<sub>i</sub>+b<sub>i</sub>&amp;C<sub>i</sub></em><br>
-<strong>Verilog代码演示</strong> ：<pre><code class="language-Verilog">  module fulladd(Cin,x,y,s,Cout);
-  input Cin,x,y;
-  output s,Cout;
-  xor(s,x,y,Cin);
-  and(z1,x,y),
-        (z2,x,Cin),
-        (z3,y,Cin);//Verilog可以通过换行达到代码的简介，用逗号隔开各个接口块
-                       //原来也可以不用声明网络wire型变量，因为Verilog默认所有的
-                       //信号为网络数据
-  or(Cout,z1,z2,z3);
-  endmodule
-
-</code></pre>
-<img src="https://unmaned-air.github.io/post-images/1654429625114.png" alt="" loading="lazy"></li>
+<strong>Verilog代码演示</strong> ：</li>
 </ul>
+<pre><code class="language-C++">    module fulladd(Cin,x,y,s,Cout);
+    input Cin,x,y;
+    output s,Cout;
+    xor(s,x,y,Cin);
+    and(z1,x,y),
+          (z2,x,Cin),
+          (z3,y,Cin);//Verilog可以通过换行达到代码的简介，用逗号隔开各个接口块
+                         //原来也可以不用声明网络wire型变量，因为Verilog默认所有的
+                         //信号为网络数据
+    or(Cout,z1,z2,z3);
+    endmodule
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://unmaned-air.github.io/post-images/1654429625114.png" alt="" loading="lazy"></figure>
 <h4 id="行波进位加法器"><strong>行波进位加法器</strong></h4>
 <p>第i位产生的进位加入到第i+1的运算中，对于每一位，我们可以使用一个全加器。这样会使得最后一位结果必须将前面所有位都算出之后才能得到，延时很高。<br>
 <img src="https://unmaned-air.github.io/post-images/1654430583000.png" alt="" loading="lazy"><br>
 <strong>Verilog代码演示</strong> ：</p>
-<pre><code class="language-Verilog">    module addern(carrin,X,Y,S,carryout);
+<pre><code class="language-C++">    module addern(carrin,X,Y,S,carryout);
     parameter n=32;
     input carryin;
     input[n-1:0]X,Y;
@@ -94,9 +94,28 @@ c=a&amp;b</li>
 <em>可以看见如图，超前进位加法器需要前面每一位g<sub>i</sub>、p<sub>i</sub>的结果输入到c位中，可以加快速度，但会使得线网的复杂度大大升高。</em></p>
 <h4 id="比较器">比较器</h4>
 <ul>
-<li>利用全加器实现的比较器（全加器模块见上方）</li>
+<li><a id="compare">利用全加器实现的比较器</a>（<a href="#add">全加器模块见上方</a>）</li>
 </ul>
-<pre><code class="language-Verilog">
+<pre><code class="language-C++">  module comparator(X,Y,V,N,Z)
+      parameter n=32;
+      input [n-1:0] X,Y;
+      output reg V,N,Z;
+      reg [n-1:0] S;
+      reg [n:0] C:
+      integer k;
+      always@(X,Y)
+      begin
+          C[0]=1'b1;
+          for(k=0;k&lt;n;k=k+1)
+          begin
+              S[k]=X[k]^~Y[k]^C[k];
+              C[k+1]=(X[k]&amp;~Y[k])|(X[k]&amp;C[k])|(~Y[k]&amp;C[k]);//这两行注意理解，通过真值表可以写出表达式
+          end
+          V=C[n]^C[n-1];
+          N=S[n-1];
+          Z=!S;
+      end
+  endmodule;
 </code></pre>
 <ul>
 <li>通用Verilog代码</li>
@@ -123,17 +142,23 @@ c=a&amp;b</li>
 <h4 id="优先级编码器">优先级编码器</h4>
 <p>顾名思义，对于一个四位优先级编码器输入<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mn>1</mn></msub><msub><mi>w</mi><mn>2</mn></msub><msub><mi>w</mi><mn>3</mn></msub><msub><mi>w</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">w_1w_2w_3w_4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ，如果 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">w_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 是1，那么无论后面的作何输入，都按照第一位是1的处理。而对于普通编码器来说，多个输入被置为1的所有输入模式都没有在真值表中出现，被认为无关项。（有点绕，但大概就是1111对两个编码器来说，普通编码器会没有输出，或者说有输出四种编码的可能，而对优先级编码器来说是敏感信号有且仅输出11）.</p>
 <h3 id="算术比较电路无符号数比较">算术比较电路（无符号数比较）</h3>
-<p>逐位进行比较列出真值表。代码相对好写，但对于函数式的列出需要真值表辅助<br>
-还有一种比较器（有符号）的方法是实现X-Y（取反码进行加法）并且根据结果值的信号进行操作（遇事不决，列真值表）<mark>见第3章例3.9</mark> .</p>
-<p>##触发器、寄存器和计数器</p>
+<p>逐位进行比较列出真值表。代码相对好写，但对于函数式的列出需要真值表辅助。<br>
+还有一种<a href="#compare">比较器（有符号）</a> 的方法是实现X-Y（取反码进行加法）并且根据结果值的信号进行操作（遇事不决，列真值表）<mark>见第3章例3.9</mark> .</p>
+<p>##触发器、寄存器和计数器<br>
+时序电路，根据CLK信号的变化触发电路。</p>
 <h3 id="基本锁存器-门控sr锁存器-门控d锁存器">基本锁存器、门控SR锁存器、门控D锁存器</h3>
 <ul>
-<li>基本锁存器</li>
-<li>门控SR锁存器</li>
-<li>门控D锁存器</li>
+<li>基本锁存器<br>
+一种具有记忆功能的器件，最基本的锁存器。<br>
+<img src="https://unmaned-air.github.io/post-images/1655547670636.png" alt="" loading="lazy"></li>
+<li>门控 <strong>SR</strong> 锁存器<br>
+相较于基本锁存器，具有类似“使能端”，控制什么时候元件对输入信号的变化做出相应。<br>
+<img src="https://unmaned-air.github.io/post-images/1655547689025.png" alt="" loading="lazy"></li>
+<li>门控 <strong>D</strong> 锁存器<br>
+相较于SR锁存器，D锁存器更能保证输入信号SR两端的信号相反。<br>
+<img src="https://unmaned-air.github.io/post-images/1655547700712.png" alt="" loading="lazy"></li>
 </ul>
 <h3 id="边沿出发的d触发器posedge-negedge">边沿出发的D触发器（<em>posedge</em> <em>negedge</em>）</h3>
-<p>边沿代码阻塞与非阻塞赋值</p>
 <h4 id="主从d触发器">主从D触发器</h4>
 <h4 id="有清零端和预置信号的d触发器">有清零端和预置信号的D触发器</h4>
 <h4 id="t触发器相当于一种特殊的jk触发器">T触发器（相当于一种特殊的jk触发器）</h4>
@@ -218,6 +243,15 @@ Overflow=C<sub>n-1</sub> ^ C<sub>n</sub></p>
 <p>香农展开<br>
 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>=</mo><msub><mi>w</mi><mn>1</mn></msub><mi>f</mi><mo>(</mo><mn>1</mn><mo separator="true">,</mo><msub><mi>w</mi><mn>2</mn></msub><mo separator="true">,</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mi mathvariant="normal">，</mi><msub><mi>w</mi><mi>n</mi></msub><mo>)</mo><mo>+</mo><mover accent="true"><msub><mi>w</mi><mn>1</mn></msub><mo stretchy="true">‾</mo></mover><mi>f</mi><mo>(</mo><mn>0</mn><mo separator="true">,</mo><msub><mi>w</mi><mn>2</mn></msub><mo separator="true">,</mo><msub><mi>w</mi><mn>3</mn></msub><mo separator="true">,</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mo separator="true">,</mo><msub><mi>w</mi><mi>n</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">f=w_1f(1,w_2,···，w_n)+\overline{w_1}f(0,w_2,w_3,···,w_n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">，</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord overline"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.63056em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.55056em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
 </li>
+<li>
+<p>边沿代码阻塞与非阻塞赋值</p>
+</li>
+<li></li>
+</ul>
+<h3 id="利用选择器搭建移位电路">利用选择器搭建移位电路</h3>
+<ul>
+<li>普通移位器</li>
+<li>桶形移位器</li>
 </ul>
 ]]></content>
     </entry>
