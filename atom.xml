@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unmaned-air.github.io</id>
     <title>沉舟侧畔</title>
-    <updated>2022-06-20T03:10:08.468Z</updated>
+    <updated>2022-06-21T17:17:10.682Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unmaned-air.github.io"/>
     <link rel="self" href="https://unmaned-air.github.io/atom.xml"/>
@@ -629,6 +629,11 @@ int main(){
 </ol>
 </li>
 </ol>
+<ul>
+<li>如果定义了复制构造函数，C++不会提供其它的构造函数</li>
+<li>深拷贝和浅拷贝<br>
+如果属性有在堆区开辟的，一定要自己提供拷贝构造函数，防止浅拷贝时重复释放堆区带来的问题。</li>
+</ul>
 ]]></content>
     </entry>
     <entry>
